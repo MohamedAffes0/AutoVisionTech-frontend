@@ -1,0 +1,113 @@
+<!-- Navigation -->
+<nav class="nav-container px-[20px] backdrop-blur-xl bg-[#1a1f2e] bg-opacity-80 border-b border-slate-700 border-opacity-50 sticky top-0 shadow-lg">
+  <div class="w-full px-0">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <div class="flex items-center gap-3 cursor-pointer group" (click)="navigateTo('catalogue')">
+        <div class="bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 p-2.5 rounded-xl shadow-[0_0_30px_rgba(37,99,235,0.4)] group-hover:shadow-[0_0_40px_rgba(37,99,235,0.6)] transition-all duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-bold bg-gradient-to-r from-white via-blue-200 to-cyan-300 bg-clip-text text-transparent">
+            AutoVisionTech
+          </span>
+          <span class="text-[10px] text-slate-500 tracking-wider uppercase">Premium Cars</span>
+        </div>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-4">
+        <button 
+          (click)="navigateTo('catalogue')"
+          [ngClass]="{'btn-active': isActivePage('catalogue')}"
+          class="btn-common">
+          Catalog
+        </button>
+        
+        <button 
+          (click)="navigateTo('reservations')"
+          [ngClass]="{'btn-active': isActivePage('reservations')}"
+          class="btn-common">
+          RReservations
+        </button>
+        
+        <button 
+          (click)="navigateTo('cars')"
+          [ngClass]="{'btn-active': isActivePage('cars')}"
+          class="btn-common">
+          Manage Cars
+        </button>
+
+        <!-- User Info -->
+        <div *ngIf="currentUser" class="flex items-center gap-20 ml-4 pl-4 border-l border-slate-700">
+          <div class="flex items-center gap-3">
+            <img
+              [src]="currentUser.image"
+              [alt]="currentUser.name"
+              class="w-10 h-10 rounded-full border-2 border-blue-500 shadow-lg"
+            />
+            <div class="flex flex-col">
+              <span class="text-white text-sm font-medium">{{ currentUser.name }}</span>
+              <span class="text-xs text-slate-400 capitalize">{{ currentUser.role }}</span>
+            </div>
+          </div>
+          <button 
+            (click)="signOut()"
+            class="btn-common btn-logout">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            Logout
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button 
+        (click)="toggleMobileMenu()"
+        class="md:hidden p-2 rounded-xl text-slate-300 hover:bg-slate-700 hover:bg-opacity-50 transition-all">
+        <svg *ngIf="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg *ngIf="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div 
+    *ngIf="mobileMenuOpen" 
+    [@fadeIn]
+    class="md:hidden backdrop-blur-xl bg-[#131820] bg-opacity-95 border-t border-slate-700 border-opacity-50">
+    <div class="px-4 py-4 space-y-2">
+      <button 
+        (click)="navigateTo('catalogue')"
+        [ngClass]="{
+          'bg-blue-600 text-white': isActivePage('catalogue'),
+          'text-slate-300 hover:bg-slate-700': !isActivePage('catalogue')
+        }"
+        class="w-full text-left px-4 py-2 rounded-lg">
+        Catalog
+      </button>
+      <button 
+        (click)="navigateTo('reservations')"
+        [ngClass]="{
+          'bg-blue-600 text-white': isActivePage('reservations'),
+          'text-slate-300 hover:bg-slate-700': !isActivePage('reservations')
+        }"
+        class="w-full text-left px-4 py-2 rounded-lg">
+        Reservations
+      </button>
+      <button 
+        (click)="navigateTo('cars')"
+        [ngClass]="{
+          'bg-blue-600 text-white': isActivePage('cars'),
+          'text-slate-300 hover:bg-slate-700': !isActivePage('cars')
+        }"
+        class="w-full text-left px-4 py-2 rounded-lg">
+        Manage Cars
+      </button>
+      <button 
+        (click)="signOut()"
+        class="w-full text-left px-4 py-2 bg-red-600 text-white rounded-lg">
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>
