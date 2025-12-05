@@ -4,10 +4,11 @@ import { Navbar } from '@shared/components/navbar/navbar';
 import { Footer } from '@shared/components/footer/footer';
 import { CarCrad } from './features/car-crad/car-crad';
 import { Hero } from '@shared/components/hero/hero';
+import { MainPage } from './features/main-page/main-page';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Footer, CarCrad, Hero],
+  imports: [RouterOutlet, Navbar, Footer, CarCrad, Hero, MainPage],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
