@@ -145,22 +145,25 @@
           </div>
         </div>
 
-        <!-- Image URL -->
+        <!-- Image Upload -->
         <div class="form-group">
-          <label class="form-label">Image URL</label>
-          <div class="input-wrapper flex items-center gap-3">
+          <label class="form-label">Vehicle Image</label>
+          <div class="input-wrapper">
             <input
-              type="url"
-              [(ngModel)]="newCarForm.images[0]"
-              name="imageUrl"
-              placeholder="https://example.com/car-image.jpg (optional)"
-              class="input flex-1"
+              type="file"
+              (change)="onImageSelected($event)"
+              name="imageFile"
+              accept="image/*"
+              class="field-input"
             />
-            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-            </svg>
           </div>
-          <p class="text-xs text-slate-500 mt-1">Leave empty to use a default image</p>
+          <p class="text-xs text-slate-500 mt-1">Upload a vehicle image (optional - default image will be used if not provided)</p>
+          
+          <!-- Image Preview -->
+          <div *ngIf="imagePreview" class="mt-4">
+            <p class="text-xs text-slate-400 mb-2">Preview:</p>
+            <img [src]="imagePreview" alt="Preview" class="w-32 h-24 rounded-lg object-cover border-2 border-blue-500/50">
+          </div>
         </div>
 
         <!-- Submit Button -->
