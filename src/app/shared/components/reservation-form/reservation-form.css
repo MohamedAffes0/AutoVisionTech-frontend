@@ -1,0 +1,52 @@
+@tailwind utilities;
+@import "tailwindcss";
+
+/* Principal container */
+.reservation-container {
+  @apply bg-[var(--color-dashboard-card)] rounded-2xl p-6 border border-slate-700 sticky top-24 space-y-6 w-1/2;
+}
+
+/* Schedule Visit Button */
+.schedule-btn {
+  @apply w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600
+  hover:from-blue-700 hover:to-cyan-700
+  text-white rounded-lg transition-all shadow-[var(--shadow-glow-blue)];
+}
+
+/* Label */
+.reservation-container form label {
+  @apply block text-sm font-medium text-slate-300;
+}
+
+/* Field wrapper */
+.input-wrapper {
+  @apply relative;
+}
+
+/* Input icons */
+.input-icon {
+  @apply absolute left-3 top-1/2 z-40 -translate-y-1/2 text-blue-400 pointer-events-none;
+}
+
+/* Unavailable */
+
+.unavailable-icon {
+  @apply mx-auto w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-4;
+}
+
+/* Contact Section */
+
+.contact-item {
+  @apply flex items-center gap-3 text-sm text-slate-300;
+}
+
+.contact-item svg {
+  @apply w-5 h-5 text-blue-400 flex-shrink-0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .reservation-container {
+    @apply static;
+  }
+}
