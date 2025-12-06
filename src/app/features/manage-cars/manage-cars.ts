@@ -151,6 +151,28 @@ export class ManageCars {
     this.editForm = { status: 'available', price: 0 };
   }
 
+  // Delete car
+  handleDeleteCar(carId: string): void {
+    const car = this.cars.find(c => c.id === carId);
+    if (car) {
+      const confirmDelete = confirm(
+        `Are you sure you want to delete ${car.brand} ${car.model}?\nThis action cannot be undone.`
+      );
+      
+      if (confirmDelete) {
+        this.cars = this.cars.filter(c => c.id !== carId);
+        
+        // Cancel edit mode if the deleted car was being edited
+        if (this.editingCarId === carId) {
+          this.editingCarId = null;
+          this.editForm = { status: 'available', price: 0 };
+        }
+        
+        alert(`${car.brand} ${car.model} has been deleted successfully!`);
+      }
+    }
+  }
+
   // Add new car
   handleAddCar(): void {
     if (this.isNewCarFormValid()) {

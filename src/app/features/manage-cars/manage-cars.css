@@ -1,8 +1,6 @@
 @tailwind utilities;
 @import "tailwindcss";
 
-/* Manage Cars Specific Styles */
-
 /* Override stat-card animation delay for 4 cards */
 .stat-card:nth-child(4) {
   animation-delay: 0.4s;
