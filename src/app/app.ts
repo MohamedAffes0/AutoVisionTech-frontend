@@ -12,10 +12,11 @@ import { ReservationForm } from '@shared/components/reservation-form/reservation
 import { Signup } from './features/signup/signup';
 import { Signin } from './features/signin/signin';
 import { AdminPanel } from './features/admin-panel/admin-panel';
+import { ManageCars } from './features/manage-cars/manage-cars';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Footer, CarCrad, Hero, MainPage, CarDetails, Comments, CarFilter, ReservationForm, Signup, Signin, AdminPanel],
+  imports: [RouterOutlet, Navbar, Footer, CarCrad, Hero, MainPage, CarDetails, Comments, CarFilter, ReservationForm, Signup, Signin, AdminPanel, ManageCars],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
