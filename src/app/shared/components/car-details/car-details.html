@@ -3,7 +3,7 @@
   <div class="image-gallery">
     <div class="main-image-wrapper group">
       <img
-        [src]="car.images[selectedImageIndex]"
+        [src]="car.images.length ? car.images[selectedImageIndex] : '/defaultcar.jpg'"
         [alt]="car.brand + ' ' + car.model"
         class="main-image"
       />
