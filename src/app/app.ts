@@ -5,10 +5,11 @@ import { Footer } from '@shared/components/footer/footer';
 import { CarCrad } from './shared/components/car-crad/car-crad';
 import { Hero } from '@shared/components/hero/hero';
 import { MainPage } from './features/main-page/main-page';
+import { CarDetails } from '@shared/components/car-details/car-details';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Footer, CarCrad, Hero, MainPage],
+  imports: [RouterOutlet, Navbar, Footer, CarCrad, Hero, MainPage, CarDetails],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
