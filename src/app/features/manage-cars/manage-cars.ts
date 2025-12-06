@@ -86,6 +86,9 @@ export class ManageCars {
 
   // Add car form
   showAddForm = false;
+  imagePreview: string | null = null;
+  selectedImageFile: File | null = null;
+  
   newCarForm = {
     brand: '',
     model: '',
@@ -120,6 +123,22 @@ export class ManageCars {
     this.showAddForm = !this.showAddForm;
     if (!this.showAddForm) {
       this.resetNewCarForm();
+    }
+  }
+
+  // Handle image selection
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      this.selectedImageFile = file;
+      
+      // Create image preview
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        this.imagePreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -176,7 +195,8 @@ export class ManageCars {
   // Add new car
   handleAddCar(): void {
     if (this.isNewCarFormValid()) {
-      const imageUrl = this.newCarForm.images[0] || 'https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg';
+      // Use uploaded image preview or default image
+      const imageUrl = this.imagePreview || 'https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg';
       
       const newCar: Car = {
         id: Date.now().toString(),
@@ -223,6 +243,8 @@ export class ManageCars {
       status: 'available',
       images: ['']
     };
+    this.imagePreview = null;
+    this.selectedImageFile = null;
   }
 
   // Check if car is being edited
