@@ -1,0 +1,102 @@
+<div class="reservation-container">
+  <h3 class="text-xl font-semibold text-white">Book Appointment</h3>
+
+  <!-- If available -->
+  <ng-container *ngIf="carStatus === 'available'">
+    
+    <!-- Schedule Visit Button -->
+    <button *ngIf="!showReservationForm" (click)="toggleForm()" class="btn-active h-10 w-full mb-4">
+      Schedule Visit
+    </button>
+
+    <!-- Form -->
+    <form *ngIf="showReservationForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      
+      <!-- Full Name Field with icon -->
+      <div>
+        <label for="clientName">Full Name</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <input name="clientName" [(ngModel)]="reservationForm.clientName" class="input h-10"/>
+        </div>
+      </div>
+
+      <!-- Email Field with icon -->
+      <div>
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+          </div>
+          <input name="email" [(ngModel)]="reservationForm.email" class="input h-10"/>
+        </div>
+      </div>
+
+      <!-- Phone Field with icon -->
+      <div>
+        <label for="phone">Phone</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+          </div>
+          <input name="phone" [(ngModel)]="reservationForm.phone" class="input h-10"/>
+        </div>
+      </div>
+
+      <!-- Date Field with icon -->
+      <div>
+        <label for="date">Date</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+          </div>
+          <input type="date" name="date" [(ngModel)]="reservationForm.date" class="input h-10"/>
+        </div>
+      </div>
+
+      <!-- Time Field with icon -->
+      <div>
+        <label for="time">Time</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <input type="time" name="time" [(ngModel)]="reservationForm.time" class="input h-10"/>
+        </div>
+      </div>
+
+      <!-- Cancel and Confirm Buttons -->
+      <div class="flex gap-3">
+        <button type="button" (click)="onCancel()" class="default-btn h-10 w-1/2">Cancel</button>
+        <button type="submit" class="btn-active h-10 w-1/2">Confirm</button>
+      </div>
+    </form>
+
+  </ng-container>
+
+  <!-- If unavailable -->
+  <div *ngIf="carStatus !== 'available'">
+    <div class="unavailable-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </div>
+    <p class="text-slate-400 text-center">This vehicle is currently <span>{{ carStatus }}</span></p>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="pt-6 border-t border-slate-700">
+    <p class="mb-6">Need help?</p>
+    <div class="space-y-3 border-1 border-slate-700 p-4 rounded-lg bg-slate-800/50">
+      <div class="contact-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+        <span>+216 12 345 678</span>
+      </div>
+      <div class="contact-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+        <span>info@autovision.com</span>
+      </div>
+    </div>
+  </div>
+
+</div>
