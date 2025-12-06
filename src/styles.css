@@ -1,6 +1,9 @@
 @tailwind utilities;
 @import "tailwindcss";
 
+/* ============================================
+    CSS VARIABLES
+   ============================================ */
 :root {
   --color-dashboard-dark: #0a0e17;
   --color-dashboard-secondary: #131820;
@@ -19,6 +22,9 @@
   --border-radius: 1.5rem;
 }
 
+/* ============================================
+    GLOBAL RESET & BASE STYLES
+   ============================================ */
 * {
   margin: 0;
   padding: 0;
@@ -62,6 +68,14 @@ body::before {
   z-index: 0;
 }
 
+.content-section {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+    KEYFRAME ANIMATIONS
+   ============================================ */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -73,6 +87,57 @@ body::before {
   }
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+    BUTTON BASE STYLES
+   ============================================ */
 button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -84,11 +149,6 @@ button:hover {
 
 button:active {
   transform: translateY(2px);
-}
-
-.content-section {
-  position: relative;
-  z-index: 1;
 }
 
 /* Common Button Styles */
@@ -115,7 +175,34 @@ button:active {
   @apply flex justify-center items-center gap-2;
 }
 
-/* Brand Section */
+/* Action Buttons */
+.save-btn {
+  @apply bg-green-600 hover:bg-green-700;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+}
+
+.cancel-btn {
+  @apply bg-slate-600 hover:bg-slate-700;
+}
+
+.edit-btn {
+  @apply bg-blue-600 hover:bg-blue-700;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+}
+
+.delete-btn {
+  @apply bg-red-600 hover:bg-red-700;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+.action-btn {
+  @apply p-2 rounded-lg text-white transition-all duration-200;
+  @apply hover:-translate-y-0.5 active:translate-y-0;
+}
+
+/* ============================================
+    BRAND SECTION
+   ============================================ */
 .brand-name {
   @apply text-lg font-bold bg-clip-text text-transparent;
   background-image: linear-gradient(to right, white, #bfdbfe, #a5f3fc);
@@ -151,13 +238,15 @@ button:active {
   @apply flex justify-center items-center gap-3 mb-6;
 }
 
-/* Status Badge */
+/* ============================================
+    STATUS BADGES
+   ============================================ */
 .status-badge {
   @apply px-4 py-2 rounded-full text-xs border backdrop-blur-md font-medium capitalize;
 }
 
 .available-badge {
-  @apply  bg-green-500/10 text-green-400 border-green-500/50 ;
+  @apply bg-green-500/10 text-green-400 border-green-500/50;
 }
 
 .reserved-badge {
@@ -168,7 +257,9 @@ button:active {
   @apply bg-red-500/10 text-red-400 border-red-500/50;
 }
 
-/* Input Styles */
+/* ============================================
+    INPUT STYLES
+   ============================================ */
 .input {
   @apply w-full pl-12 pr-12 py-4 rounded-2xl;
   @apply bg-slate-800/60 backdrop-blur-xl;
@@ -186,7 +277,15 @@ button:active {
   @apply absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 pointer-events-none;
 }
 
-/* Signin and Signup Title */
+.select-input {
+  @apply px-3 py-1.5 bg-slate-700 border border-slate-600 rounded-lg;
+  @apply text-white text-sm;
+  @apply focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20;
+}
+
+/* ============================================
+    PAGE TITLES
+   ============================================ */
 .signin-title, .signup-title {
   @apply text-3xl md:text-4xl font-bold text-white mb-2;
   background: linear-gradient(to right, white, #bfdbfe, #a5f3fc);
@@ -195,18 +294,26 @@ button:active {
   background-clip: text;
 }
 
-/* Error Banner */
+.page-title {
+  @apply text-3xl font-bold text-white mb-2;
+  background: linear-gradient(to right, white, #bfdbfe, #a5f3fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-subtitle {
+  @apply text-slate-400;
+}
+
+/* ============================================
+    ERROR HANDLING
+   ============================================ */
 .error-banner {
   @apply flex items-center gap-3 p-4 mb-6 rounded-xl;
   @apply bg-red-500/10 border border-red-500/30;
   @apply text-red-400 text-sm;
   animation: shake 0.5s ease-in-out;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 .input.error {
@@ -218,7 +325,9 @@ button:active {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Form Group */
+/* ============================================
+    FORM ELEMENTS
+   ============================================ */
 .form-group {
   @apply space-y-2;
 }
@@ -238,7 +347,38 @@ button:active {
   @apply p-1 rounded-lg hover:bg-slate-700/50;
 }
 
-/* Checkbox */
+.form-field {
+  @apply space-y-2;
+}
+
+.field-label {
+  @apply block text-sm font-medium text-slate-400;
+}
+
+.field-input {
+  @apply w-full px-4 py-3 rounded-xl;
+  @apply bg-slate-700/50 border border-slate-600;
+  @apply text-white placeholder-slate-500;
+  @apply transition-all duration-200;
+  @apply focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20;
+}
+
+.field-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl p-6 border border-slate-700/50 mb-8;
+  animation: slideDown 0.3s ease-out;
+}
+
+.form-card-title {
+  @apply text-xl font-semibold text-white mb-6;
+}
+
+/* ============================================
+    CHECKBOX
+   ============================================ */
 .checkbox-custom {
   @apply w-5 h-5 rounded border-2 border-slate-600;
   @apply bg-slate-700/50 flex-shrink-0 mt-0.5;
@@ -260,17 +400,19 @@ button:active {
   transform: rotate(-45deg) translateY(-1px);
 }
 
+.checkbox-text {
+  @apply text-sm text-slate-400;
+}
+
 .link {
   @apply text-blue-400 hover:text-blue-300;
   @apply transition-colors duration-200;
   @apply underline decoration-blue-400/30 hover:decoration-blue-300;
 }
 
-.checkbox-text {
-  @apply text-sm text-slate-400;
-}
-
-/* Submit Button */
+/* ============================================
+    SUBMIT BUTTON
+   ============================================ */
 .submit-btn {
   @apply w-full py-4 rounded-xl;
   @apply bg-gradient-to-r from-blue-600 to-cyan-600;
@@ -293,21 +435,16 @@ button:active {
   @apply opacity-90;
 }
 
-/* Loading Spinner */
+/* ============================================
+    LOADING SPINNER
+   ============================================ */
 .spinner {
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Signup and Signin Page Layout */
+/* ============================================
+    PAGE LAYOUTS
+   ============================================ */
 .signup-page, .signin-page {
   @apply min-h-screen flex items-center justify-center p-4 relative;
 }
@@ -326,33 +463,211 @@ button:active {
   animation: slideUp 0.6s ease-out;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+/* ============================================
+    PAGE HEADER
+   ============================================ */
+.page-header {
+  @apply mb-8;
+}
+
+.header-title-wrapper {
+  @apply flex items-start gap-4;
+}
+
+.title-icon {
+  @apply p-3 rounded-xl;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
+}
+
+/* ============================================
+    STATS CARDS
+   ============================================ */
+.stat-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-xl p-6 border border-slate-700/50;
+  @apply hover:border-slate-600 transition-all duration-300;
+  animation: slideIn 0.5s ease-out both;
+}
+
+.stat-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stat-content {
+  @apply flex items-center justify-between;
+}
+
+.stat-label {
+  @apply text-slate-400 text-sm mb-1;
+}
+
+.stat-value {
+  @apply text-3xl font-bold text-white;
+}
+
+.stat-icon {
+  @apply w-12 h-12 rounded-full flex items-center justify-center;
+}
+
+.stat-icon.blue {
+  @apply bg-blue-500/10 text-blue-400;
+}
+
+.stat-icon.green {
+  @apply bg-green-500/10 text-green-400;
+}
+
+.stat-icon.yellow {
+  @apply bg-yellow-500/10 text-yellow-400;
+}
+
+.stat-icon.red {
+  @apply bg-red-500/10 text-red-400;
+}
+
+/* ============================================
+    TABLE STYLES
+   ============================================ */
+.table-container {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 overflow-hidden;
+  animation: slideUp 0.6s ease-out 0.4s both;
+}
+
+.table-header {
+  @apply p-6 border-b border-slate-700 flex items-center justify-between;
+}
+
+.table-title {
+  @apply text-xl font-semibold text-white;
+}
+
+.table-wrapper {
+  @apply overflow-x-auto;
+}
+
+.data-table, .users-table {
+  @apply w-full;
+}
+
+.data-table thead, .users-table thead {
+  @apply bg-slate-800/50;
+}
+
+.data-table th, .users-table th {
+  @apply px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider;
+}
+
+.data-table tbody, .users-table tbody {
+  @apply divide-y divide-slate-700;
+}
+
+.data-table td, .users-table td {
+  @apply px-6 py-4;
+}
+
+.table-row {
+  @apply hover:bg-slate-800/30 transition-colors;
+}
+
+/* ============================================
+    USER AVATAR
+   ============================================ */
+.user-avatar-placeholder {
+  @apply w-10 h-10 rounded-full border-2 border-slate-600;
+  @apply bg-slate-700 flex items-center justify-center text-slate-400;
+}
+
+/* ============================================
+   MODAL STYLES
+   ============================================ */
+.modal-overlay {
+  @apply fixed inset-0 bg-black/70 backdrop-blur-sm;
+  @apply flex items-center justify-center p-4;
+  @apply z-50;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  @apply bg-slate-800/90 backdrop-blur-xl rounded-2xl;
+  @apply border border-slate-700 shadow-2xl;
+  @apply w-full max-w-md p-8;
+  animation: slideUp 0.4s ease-out;
+}
+
+.modal-close {
+  @apply p-2 rounded-lg text-slate-400;
+  @apply hover:text-white hover:bg-slate-700;
+  @apply transition-all duration-200;
+}
+
+.modal-actions {
+  @apply flex items-center justify-end gap-3 mt-6 pt-6 border-t border-slate-700;
+}
+
+.btn-modal-cancel {
+  @apply px-5 py-2.5 rounded-xl;
+  @apply bg-slate-700/50 hover:bg-slate-600;
+  @apply text-white transition-all duration-200;
+  @apply border border-slate-600;
+}
+
+.btn-modal-submit {
+  @apply flex items-center gap-2 px-5 py-2.5 rounded-xl;
+  @apply bg-gradient-to-r from-green-600 to-green-700;
+  @apply hover:from-green-700 hover:to-green-800;
+  @apply text-white font-medium transition-all duration-300;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.btn-modal-submit:hover:not(:disabled) {
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+  @apply -translate-y-0.5;
+}
+
+.btn-modal-submit:disabled {
+  @apply hover:from-green-600 hover:to-green-700 hover:translate-y-0;
+}
+
+/* ============================================
+    RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1024px) {
+  .table-wrapper {
+    @apply overflow-x-scroll;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .data-table, .users-table {
+    @apply min-w-[800px];
   }
 }
 
-/* Action Buttons */
-.save-btn {
-  @apply bg-green-600 hover:bg-green-700;
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
-}
+@media (max-width: 768px) {
+  .page-title {
+    @apply text-2xl;
+  }
 
-.cancel-btn {
-  @apply bg-slate-600 hover:bg-slate-700;
-}
+  .stats-grid {
+    @apply grid-cols-1;
+  }
 
-.edit-btn {
-  @apply bg-blue-600 hover:bg-blue-700;
-  box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
-}
+  .table-header {
+    @apply flex-col items-start gap-4;
+  }
 
-.delete-btn {
-  @apply bg-red-600 hover:bg-red-700;
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+  .btn-add-user {
+    @apply w-full justify-center;
+  }
+
+  .stat-value {
+    @apply text-2xl;
+  }
 }
