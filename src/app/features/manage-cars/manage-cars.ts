@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -23,6 +23,7 @@ export interface Car {
   styleUrls: ['./manage-cars.css']
 })
 export class ManageCars {
+  constructor(private cdr: ChangeDetectorRef) {}
   // Cars data
   cars: Car[] = [
     {
@@ -86,9 +87,6 @@ export class ManageCars {
 
   // Add car form
   showAddForm = false;
-  imagePreview: string | null = null;
-  selectedImageFile: File | null = null;
-  
   newCarForm = {
     brand: '',
     model: '',
@@ -100,6 +98,13 @@ export class ManageCars {
     status: 'available' as 'available' | 'reserved' | 'sold',
     images: ['']
   };
+
+  // Handle image selection
+  imageFiles: File[] = [];
+  imagePreviews: string[] = [];
+  imageError = '';
+  MAX_IMAGES = 5;
+  MAX_SIZE = 1 * 1024 * 1024; // 1MB
 
   // Computed stats
   get totalCars(): number {
@@ -127,19 +132,79 @@ export class ManageCars {
   }
 
   // Handle image selection
-  onImageSelected(event: Event): void {
+  onImagesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      this.selectedImageFile = file;
-      
-      // Create image preview
+    this.imageError = '';
+
+    if (!input.files || input.files.length === 0) return;
+
+    const selectedFiles = Array.from(input.files);
+    const remainingSlots = this.MAX_IMAGES - this.imageFiles.length;
+
+    // Check if maximum is exceeded
+    if (selectedFiles.length > remainingSlots) {
+      this.imageError = `You can select up to ${this.MAX_IMAGES} images. There are ${remainingSlots} slot(s) available.`;
+      input.value = '';
+      return;
+    }
+
+    // Process each file
+    const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
+
+    for (const file of selectedFiles) {
+      // Check size
+      if (file.size > this.MAX_SIZE) {
+        invalidFiles.push(file.name);
+        continue;
+      }
+
+      // Check type
+      if (!file.type.startsWith('image/')) {
+        invalidFiles.push(file.name);
+        continue;
+      }
+
+      validFiles.push(file);
+    }
+
+    // Display errors if any
+    if (invalidFiles.length > 0) {
+      this.imageError = `The following files are invalid (size > 1MB or unsupported format): ${invalidFiles.join(', ')}`;
+    }
+
+    // Add valid files and generate previews
+    let loadedCount = 0;
+    validFiles.forEach(file => {
+      this.imageFiles.push(file);
+
+      // Generate preview
       const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        this.imagePreview = e.target?.result as string;
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          this.imagePreviews.push(e.target.result as string);
+          loadedCount++;
+          
+          // Trigger change detection after each image is loaded
+          this.cdr.detectChanges();
+        }
+      };
+      reader.onerror = () => {
+        console.error(`Error reading file ${file.name}`);
+        loadedCount++;
       };
       reader.readAsDataURL(file);
-    }
+    });
+
+    // Clear the input to allow re-selecting the same images
+    input.value = '';
+  }
+
+  // Remove an image
+  removeImage(index: number): void {
+    this.imageFiles.splice(index, 1);
+    this.imagePreviews.splice(index, 1);
+    this.imageError = '';
   }
 
   // Start editing a car
@@ -170,33 +235,13 @@ export class ManageCars {
     this.editForm = { status: 'available', price: 0 };
   }
 
-  // Delete car
-  handleDeleteCar(carId: string): void {
-    const car = this.cars.find(c => c.id === carId);
-    if (car) {
-      const confirmDelete = confirm(
-        `Are you sure you want to delete ${car.brand} ${car.model}?\nThis action cannot be undone.`
-      );
-      
-      if (confirmDelete) {
-        this.cars = this.cars.filter(c => c.id !== carId);
-        
-        // Cancel edit mode if the deleted car was being edited
-        if (this.editingCarId === carId) {
-          this.editingCarId = null;
-          this.editForm = { status: 'available', price: 0 };
-        }
-        
-        alert(`${car.brand} ${car.model} has been deleted successfully!`);
-      }
-    }
-  }
-
   // Add new car
   handleAddCar(): void {
     if (this.isNewCarFormValid()) {
-      // Use uploaded image preview or default image
-      const imageUrl = this.imagePreview || 'https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg';
+      // Use uploaded images or default image
+      const carImages = this.imagePreviews.length > 0 
+        ? this.imagePreviews 
+        : ['https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg'];
       
       const newCar: Car = {
         id: Date.now().toString(),
@@ -208,12 +253,12 @@ export class ManageCars {
         kilometerAge: this.newCarForm.kilometerAge,
         condition: this.newCarForm.condition,
         status: this.newCarForm.status,
-        images: [imageUrl]
+        images: carImages
       };
       
       this.cars.unshift(newCar);
       this.toggleAddForm();
-      alert(`Vehicle ${newCar.brand} ${newCar.model} has been added successfully!`);
+      alert(`Vehicle ${newCar.brand} ${newCar.model} has been added successfully with ${carImages.length} image(s)!`);
     }
   }
 
@@ -243,8 +288,10 @@ export class ManageCars {
       status: 'available',
       images: ['']
     };
-    this.imagePreview = null;
-    this.selectedImageFile = null;
+    // Reset            images
+    this.imageFiles = [];
+    this.imagePreviews = [];
+    this.imageError = '';
   }
 
   // Check if car is being edited
