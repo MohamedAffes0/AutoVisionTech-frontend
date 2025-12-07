@@ -143,6 +143,14 @@ export class ManageCars {
     this.editForm = { status: 'available', price: 0 };
   }
 
+  // Handle delete car event
+  handleDeleteCar(carId: string): void {
+    const confirmDelete = confirm('Are you sure you want to delete this vehicle? This action cannot be undone.');
+    if (confirmDelete) {
+      this.cars = this.cars.filter(c => c.id !== carId);
+    }
+  }
+
   // Check if a car is currently being edited
   isEditing(carId: string): boolean {
     return this.editingCarId === carId;
