@@ -1,6 +1,7 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AddCar } from '@shared/components/add-car/add-car';
 
 export interface Car {
   id: string;
@@ -18,13 +19,11 @@ export interface Car {
 @Component({
   selector: 'app-manage-cars',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AddCar],
   templateUrl: './manage-cars.html',
   styleUrls: ['./manage-cars.css']
 })
 export class ManageCars {
-  constructor(private cdr: ChangeDetectorRef) {}
-  // Cars data
   cars: Car[] = [
     {
       id: '1',
@@ -76,37 +75,14 @@ export class ManageCars {
     }
   ];
 
-  currentYearPlusOne = new Date().getFullYear() + 1;
-
-  // Edit state
+  // UI State
+  showAddForm = false;
   editingCarId: string | null = null;
   editForm = {
     status: 'available' as 'available' | 'reserved' | 'sold',
     price: 0
   };
 
-  // Add car form
-  showAddForm = false;
-  newCarForm = {
-    brand: '',
-    model: '',
-    description: '',
-    year: new Date().getFullYear(),
-    price: 0,
-    kilometerAge: 0,
-    condition: '',
-    status: 'available' as 'available' | 'reserved' | 'sold',
-    images: ['']
-  };
-
-  // Handle image selection
-  imageFiles: File[] = [];
-  imagePreviews: string[] = [];
-  imageError = '';
-  MAX_IMAGES = 5;
-  MAX_SIZE = 1 * 1024 * 1024; // 1MB
-
-  // Computed stats
   get totalCars(): number {
     return this.cars.length;
   }
@@ -123,91 +99,23 @@ export class ManageCars {
     return this.cars.filter(c => c.status === 'sold').length;
   }
 
-  // Toggle add form
   toggleAddForm(): void {
     this.showAddForm = !this.showAddForm;
-    if (!this.showAddForm) {
-      this.resetNewCarForm();
-    }
   }
 
-  // Handle image selection
-  onImagesSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.imageError = '';
-
-    if (!input.files || input.files.length === 0) return;
-
-    const selectedFiles = Array.from(input.files);
-    const remainingSlots = this.MAX_IMAGES - this.imageFiles.length;
-
-    // Check if maximum is exceeded
-    if (selectedFiles.length > remainingSlots) {
-      this.imageError = `You can select up to ${this.MAX_IMAGES} images. There are ${remainingSlots} slot(s) available.`;
-      input.value = '';
-      return;
-    }
-
-    // Process each file
-    const validFiles: File[] = [];
-    const invalidFiles: string[] = [];
-
-    for (const file of selectedFiles) {
-      // Check size
-      if (file.size > this.MAX_SIZE) {
-        invalidFiles.push(file.name);
-        continue;
-      }
-
-      // Check type
-      if (!file.type.startsWith('image/')) {
-        invalidFiles.push(file.name);
-        continue;
-      }
-
-      validFiles.push(file);
-    }
-
-    // Display errors if any
-    if (invalidFiles.length > 0) {
-      this.imageError = `The following files are invalid (size > 1MB or unsupported format): ${invalidFiles.join(', ')}`;
-    }
-
-    // Add valid files and generate previews
-    let loadedCount = 0;
-    validFiles.forEach(file => {
-      this.imageFiles.push(file);
-
-      // Generate preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target?.result) {
-          this.imagePreviews.push(e.target.result as string);
-          loadedCount++;
-          
-          // Trigger change detection after each image is loaded
-          this.cdr.detectChanges();
-        }
-      };
-      reader.onerror = () => {
-        console.error(`Error reading file ${file.name}`);
-        loadedCount++;
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // Clear the input to allow re-selecting the same images
-    input.value = '';
+  // Handle car added event
+  onCarAdded(car: Car): void {
+    this.cars.unshift(car);
+    this.showAddForm = false;
+    alert(`Vehicle ${car.brand} ${car.model} has been added successfully with ${car.images.length} image(s)!`);
   }
 
-  // Remove an image
-  removeImage(index: number): void {
-    this.imageFiles.splice(index, 1);
-    this.imagePreviews.splice(index, 1);
-    this.imageError = '';
+  // Handle add cancelled event
+  onAddCancelled(): void {
+    this.showAddForm = false;
   }
 
-  // Start editing a car
+  // Handle start edit event
   handleStartEdit(car: Car): void {
     this.editingCarId = car.id;
     this.editForm = {
@@ -216,7 +124,7 @@ export class ManageCars {
     };
   }
 
-  // Save edited car
+  // Handle save edit event
   handleSaveEdit(carId: string): void {
     const carIndex = this.cars.findIndex(c => c.id === carId);
     if (carIndex !== -1) {
@@ -229,77 +137,18 @@ export class ManageCars {
     this.editForm = { status: 'available', price: 0 };
   }
 
-  // Cancel editing
+  // Handle cancel edit event
   handleCancelEdit(): void {
     this.editingCarId = null;
     this.editForm = { status: 'available', price: 0 };
   }
 
-  // Add new car
-  handleAddCar(): void {
-    if (this.isNewCarFormValid()) {
-      // Use uploaded images or default image
-      const carImages = this.imagePreviews.length > 0 
-        ? this.imagePreviews 
-        : ['https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg'];
-      
-      const newCar: Car = {
-        id: Date.now().toString(),
-        brand: this.newCarForm.brand,
-        model: this.newCarForm.model,
-        description: this.newCarForm.description,
-        year: this.newCarForm.year,
-        price: this.newCarForm.price,
-        kilometerAge: this.newCarForm.kilometerAge,
-        condition: this.newCarForm.condition,
-        status: this.newCarForm.status,
-        images: carImages
-      };
-      
-      this.cars.unshift(newCar);
-      this.toggleAddForm();
-      alert(`Vehicle ${newCar.brand} ${newCar.model} has been added successfully with ${carImages.length} image(s)!`);
-    }
-  }
-
-  // Check if new car form is valid
-  isNewCarFormValid(): boolean {
-    return !!(
-      this.newCarForm.brand.trim() &&
-      this.newCarForm.model.trim() &&
-      this.newCarForm.description.trim() &&
-      this.newCarForm.year > 0 &&
-      this.newCarForm.price > 0 &&
-      this.newCarForm.kilometerAge >= 0 &&
-      this.newCarForm.condition.trim()
-    );
-  }
-
-  // Reset new car form
-  resetNewCarForm(): void {
-    this.newCarForm = {
-      brand: '',
-      model: '',
-      description: '',
-      year: new Date().getFullYear(),
-      price: 0,
-      kilometerAge: 0,
-      condition: '',
-      status: 'available',
-      images: ['']
-    };
-    // Reset            images
-    this.imageFiles = [];
-    this.imagePreviews = [];
-    this.imageError = '';
-  }
-
-  // Check if car is being edited
+  // Check if a car is currently being edited
   isEditing(carId: string): boolean {
     return this.editingCarId === carId;
   }
 
-  // Get status badge class
+  // Get CSS classes based on car status
   getStatusColor(status: string): string {
     switch (status) {
       case 'available':
