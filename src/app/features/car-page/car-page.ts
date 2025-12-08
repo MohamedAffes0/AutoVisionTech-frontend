@@ -5,7 +5,8 @@ import { Comments } from '@shared/components/comments/comments';
 import { ReservationForm } from '@shared/components/reservation-form/reservation-form';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CarService } from 'src/app/core/services/car.service';
-import { Car } from 'src/app/core/models';
+import { Car, CreateReservationDto } from 'src/app/core/models';
+import { ReservationService } from 'src/app/core/services/reservation.service';
 
 @Component({
   selector: 'app-car-page',
@@ -17,10 +18,15 @@ import { Car } from 'src/app/core/models';
 export class CarPage {
   car: Car | null = null;
   carId: string = '';
+  alertMessage: string = '';
+  alertType: 'success' | 'error' = 'success';
+  showAlert: boolean = false;
+  reservationData: CreateReservationDto | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private carService: CarService
+    private carService: CarService,
+    private reservationService: ReservationService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +46,43 @@ export class CarPage {
         this.car = data;
       });
   }
-  
 
+  //after adding a comment
+  // After a comment is added
+  onCommentAdded() {
+    // Reload only the product to get updated comments
+    this.carService
+      .getCarById(this.carId)
+      .subscribe((updatedCar) => {
+        if (this.car) {
+          this.car.comments = updatedCar.comments;
+          this.car.totalComments = updatedCar.totalComments;
+        }
+      });
+  }
+  //to display alert messages
+  showStyledAlert(message: string, type: 'success' | 'error') {
+    this.alertMessage = message;
+    this.alertType = type;
+    this.showAlert = true;
+
+    setTimeout(() => {
+      this.showAlert = false;
+    }, 3000);
+  }
+
+  //add a reservation
+  addReservation() {
+    if(this.reservationData && this.carId){
+      this.reservationService.createReservation(this.reservationData,this.carId)
+      .subscribe({
+        next: (response) => { 
+          this.showStyledAlert('Thank you for your interest, we will contact you soon!', 'success');
+        },
+        error: (err) => {
+          this.showStyledAlert('Error reserving a car visit.', 'error');
+        }
+      });
+    }
+  }
 }
