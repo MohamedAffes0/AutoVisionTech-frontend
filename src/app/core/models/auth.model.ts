@@ -22,7 +22,7 @@ export interface LoginResponse {
   redirect: boolean;
 }
 
-export interface ClientSignUpResponse {
+export interface SignUpResponse {
   token: string;
   user: {
     id: string;
@@ -33,4 +33,11 @@ export interface ClientSignUpResponse {
     createdAt: string;
     updatedAt: string;
   };
+}
+
+export interface SignUpDto{
+  email: string;
+  password: string;
+  name: string;
+  role?: string;
 }
