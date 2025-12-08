@@ -10,7 +10,7 @@
         type="text"
         [(ngModel)]="searchText"
         (ngModelChange)="onSearchChange()"
-        placeholder="Search by brand, model, or description..."
+        placeholder="Search by brand"
         class="input"
       />
       
@@ -69,7 +69,7 @@
                 [(ngModel)]="minPrice"
                 (ngModelChange)="onPriceChange()"
                 min="0"
-                max="100000"
+                max="{{ maxPrice ?? 1000 }}"
                 [max]="maxPrice"
                 class="price-input"
               />
@@ -87,7 +87,7 @@
                 [(ngModel)]="maxPrice"
                 (ngModelChange)="onPriceChange()"
                 min="0"
-                max="100000"
+                max="1000"
                 class="price-input"
               />
             </div>
@@ -110,7 +110,7 @@
             type="range"
             [(ngModel)]="maxPrice"
             (ngModelChange)="onPriceChange()"
-            max="100000"
+            max="1000"
             step="1000"
             class="range-slider max-slider"
           />
