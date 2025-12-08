@@ -13,8 +13,6 @@ import { ReservationService } from 'src/app/core/services/reservation.service';
 })
 export class ReservationForm {
   @Input() car: Car | null = null;
-  // Car status
-  carStatus: 'available' | 'reserved' | 'sold' = 'available';
   
   // Show/hide the form
   showReservationForm = false;
