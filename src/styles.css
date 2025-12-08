@@ -162,6 +162,12 @@ button:active {
   @apply flex justify-center items-center gap-2;
 }
 
+.btn-active:disabled {
+  @apply bg-slate-700 cursor-not-allowed;
+  @apply hover:shadow-none;
+  @apply opacity-50;
+}
+
 .btn-logout {
   @apply bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl flex items-center gap-2 transition-all duration-300;
 }
