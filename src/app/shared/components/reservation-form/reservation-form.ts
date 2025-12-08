@@ -31,7 +31,6 @@ export class ReservationForm {
     clientPhone: '',
     visitDate: '',
     visitTime: '',
-    status: 'pending',
   };
 
   // Toggle the form
@@ -44,9 +43,7 @@ export class ReservationForm {
 
   // Submit the reservation
   onSubmit(): void {
-    if(this.car && this.reservationForm){
-        console.log(" Reservation data sent to API:", this.reservationForm);
-       console.log("Car ID:", this.car.id);
+    if(this.car && this.isFormValid()) {
       this.reservationService.createReservation(this.reservationForm, this.car.id)
       .subscribe({
         next: (response) => {
@@ -103,7 +100,6 @@ export class ReservationForm {
       clientPhone: '',
       visitDate: '',
       visitTime: '',
-      status:'pending',
     };
   }
 
