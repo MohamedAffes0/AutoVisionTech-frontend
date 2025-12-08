@@ -1,15 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'agent';
-  isActive: boolean;
-  image?: string;
-}
+import { User } from 'src/app/core/models';
+import { UserService } from 'src/app/core/services/user.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-panel',
@@ -18,54 +13,13 @@ export interface User {
   templateUrl: './admin-panel.html',
   styleUrls: ['./admin-panel.css']
 })
-export class AdminPanel {
+export class AdminPanel implements OnInit {
   // Users data
-  users: User[] = [
-    {
-      id: '1',
-      name: 'Jean Dupont',
-      email: 'jean.dupont@autovision.com',
-      role: 'admin',
-      isActive: true,
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop'
-    },
-    {
-      id: '2',
-      name: 'Marie Martin',
-      email: 'marie.martin@autovision.com',
-      role: 'agent',
-      isActive: true,
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'
-    },
-    {
-      id: '3',
-      name: 'Pierre Dubois',
-      email: 'pierre.dubois@autovision.com',
-      role: 'agent',
-      isActive: true,
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
-    },
-    {
-      id: '4',
-      name: 'Sophie Bernard',
-      email: 'sophie.bernard@autovision.com',
-      role: 'agent',
-      isActive: false,
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop'
-    },
-    {
-      id: '5',
-      name: 'Luc Moreau',
-      email: 'luc.moreau@autovision.com',
-      role: 'admin',
-      isActive: true,
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop'
-    }
-  ];
-
+  users: User[] | null = null;
   // Edit state
   editingUser: string | null = null;
   editForm: Partial<User> = {};
+  currentUserId: string | null = null;
 
   // Add user modal
   showAddModal = false;
@@ -77,17 +31,73 @@ export class AdminPanel {
     image: ''
   };
 
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
+
+  ngOnInit() {
+    this.authService.user$.subscribe((user) => {
+      if (user) {
+        this.currentUserId = user.id;
+      }
+    });
+
+    this.loadUsers();
+  }
+
+    loadCurrentUser() {
+    // Retrieve the current user from localStorage or your authentication service
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      this.currentUserId = JSON.parse(currentUser).id;
+    }
+  }
+
+  async loadUsers() {
+    try {
+      // Load all users via the service
+      this.userService.getAllUsers({}, 1, 100).subscribe({
+        next: (response) => {
+          // Exclude the current admin user from the list
+          this.users = response.items.filter((user) => user.id !== this.currentUserId);
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement des utilisateurs:', error);
+        },
+      });
+    } catch (error) {
+      console.error('Erreur lors du chargement des utilisateurs:', error);
+    }
+  }
+
   // Computed stats
   get totalUsers(): number {
-    return this.users.length;
+    if(this.users){
+      return this.users.length;
+    }
+    else{
+      return 0;
+    }
   }
 
   get activeUsers(): number {
-    return this.users.filter(u => u.isActive).length;
+    if(this.users){
+      return this.users.filter(u => u.isActive).length;
+    }
+    else{
+      return 0;
+    }
   }
 
   get adminCount(): number {
-    return this.users.filter(u => u.role === 'admin').length;
+    if(this.users){
+      return this.users.filter(u => u.role === 'admin').length;
+    }
+    else{
+      return 0;
+    }
   }
 
   // Start editing a user
@@ -100,14 +110,25 @@ export class AdminPanel {
   }
 
   // Save edited user
-  handleSaveEdit(userId: string): void {
-    const userIndex = this.users.findIndex(u => u.id === userId);
-    if (userIndex !== -1) {
-      this.users[userIndex] = {
-        ...this.users[userIndex],
-        ...this.editForm
-      };
+  handleSaveEdit(user: User): void {
+    //edit role
+    if(this.editForm.role){
+    this.userService.updateUserRole(user.id, this.editForm.role).subscribe({
+    next: updated => {
+      user.role = updated.role;
+    },
+    error: () => alert('Failed to update role')
+    });
+
+    //edit status
+    this.userService.updateActivateUser(user.id, !user.isActive).subscribe({
+    next: updated => {
+      user.isActive = updated.isActive;
+    },
+    error: () => alert('Failed to update status')
+    });
     }
+
     this.editingUser = null;
     this.editForm = {};
   }
@@ -125,11 +146,21 @@ export class AdminPanel {
 
   // Delete user
   handleDeleteUser(userId: string): void {
-    const user = this.users.find(u => u.id === userId);
-    if (user && confirm(`Are you sure you want to delete ${user.name}?`)) {
-      this.users = this.users.filter(u => u.id !== userId);
-    }
-  }
+    if(this.users){
+          const user = this.users.find(u => u.id === userId);
+    if (!user) return;
+
+    if (confirm(`Delete user ${user.name}?`)) {
+      this.userService.deleteUser(userId).subscribe({
+        next: () => {
+          if(this.users)
+          this.users = this.users.filter(u => u.id !== userId);
+        },
+        error: () => alert("Failed to delete user")
+      });
+     }
+   }
+}
 
   // Open add user modal
   openAddModal(): void {
@@ -144,20 +175,14 @@ export class AdminPanel {
 
   // Add new user
   handleAddUser(): void {
-    if (this.isNewUserFormValid()) {
-      const newUser: User = {
-        id: Date.now().toString(),
-        name: this.newUserForm.name,
-        email: this.newUserForm.email,
-        role: this.newUserForm.role,
-        isActive: true,
-        image: this.newUserForm.image || undefined
-      };
-      
-      this.users.unshift(newUser);
-      this.closeAddModal();
-      alert(`User ${newUser.name} has been added successfully!`);
-    }
+    if (!this.isNewUserFormValid()) return alert("Invalid data");
+    this.authService.signUp(this.newUserForm).subscribe({
+      next: (newUser) => {
+        this.closeAddModal();
+        alert(`User ${newUser.user.name} added successfully!`);
+      },
+      error: () => alert("Failed to add user")
+    });
   }
 
   // Check if new user form is valid
