@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, catchError, of } from 'rxjs';
 import { authClient } from '../../../lib/auth-client';
-import { Session, SessionResponse, User } from '../models';
+import { Session, SessionResponse, SignUpDto, SignUpResponse, User } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -73,9 +73,20 @@ export class AuthService {
    */
   async login(email: string, password: string) {
     const res = await authClient.signIn.email({ email, password });
+    console.log('authClient.signIn response:', res);
+
     if (res.data) {
       this.getSession().subscribe();
     }
     return res.data || res.error; // renvoie soit Data soit Error
+  }
+    /**
+   * Sign up a new user
+   */
+
+    signUp(data: SignUpDto): Observable<SignUpResponse> {
+    return this.http.post<SignUpResponse>(`${this.apiUrl}/api/auth/sign-up/email`, data, {
+      withCredentials: true,
+    });
   }
 }

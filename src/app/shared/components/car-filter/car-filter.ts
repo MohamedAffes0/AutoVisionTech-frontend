@@ -1,13 +1,14 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 export type SortByType = 'price-asc' | 'price-desc' | 'mileage-asc' | 'mileage-desc' | 'year-desc' | 'none';
 
 export interface SearchFilters {
-  searchText: string;
-  priceRange: { min: number; max: number };
-  sortBy: SortByType;
+  searchText?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: SortByType;
 }
 
 interface SortOption {
@@ -28,16 +29,15 @@ interface PriceFilter {
   templateUrl: './car-filter.html',
   styleUrls: ['./car-filter.css']
 })
-export class CarFilter {
-  @Output() filtersChanged = new EventEmitter<SearchFilters>();
+export class CarFilter implements OnInit {
+  @Output() filtersChange = new EventEmitter<SearchFilters>();
 
   searchText = '';
-  minPrice = 0;
-  maxPrice = 100000;
+  minPrice: number = 0;
+  maxPrice: number = 1000000000;
   sortBy: SortByType = 'none';
   showFilters = false;
 
-  // Sort options
   sortOptions: SortOption[] = [
     { value: 'none', label: 'Default' },
     { value: 'price-asc', label: 'Price: Low to High' },
@@ -47,7 +47,6 @@ export class CarFilter {
     { value: 'year-desc', label: 'Year: Newest First' }
   ];
 
-  // Quick price filters
   quickPriceFilters: PriceFilter[] = [
     { label: 'Under $20K', min: 0, max: 20000 },
     { label: '$20K - $40K', min: 20000, max: 40000 },
@@ -55,31 +54,17 @@ export class CarFilter {
     { label: 'Over $60K', min: 60000, max: 100000 }
   ];
 
+  ngOnInit(): void {
+    this.emitFilters();
+  }
+
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
   }
 
-  onSearchChange(): void {
-    this.emitFilters();
-  }
-
-  onPriceChange(): void {
-    // Ensure minPrice ≤ maxPrice
-    if (this.minPrice > this.maxPrice) {
-      this.minPrice = this.maxPrice;
-    }
-
-    // Ensure maxPrice ≥ minPrice
-    if (this.maxPrice < this.minPrice) {
-      this.maxPrice = this.minPrice;
-    }
-
-    this.emitFilters();
-  }
-
-  onSortChange(): void {
-    this.emitFilters();
-  }
+  onSearchChange(): void { console.log('Search text changed:', this.searchText); this.emitFilters(); }
+  onPriceChange(): void { this.emitFilters(); }
+  onSortChange(): void { this.emitFilters(); }
 
   setQuickPriceFilter(min: number, max: number): void {
     this.minPrice = min;
@@ -90,16 +75,18 @@ export class CarFilter {
   resetFilters(): void {
     this.searchText = '';
     this.minPrice = 0;
-    this.maxPrice = 100000;
+    this.maxPrice = 1000;
     this.sortBy = 'none';
     this.emitFilters();
   }
 
   private emitFilters(): void {
-    this.filtersChanged.emit({
-      searchText: this.searchText,
-      priceRange: { min: this.minPrice, max: this.maxPrice },
-      sortBy: this.sortBy
+    this.filtersChange.emit({
+      searchText: this.searchText || undefined,
+      minPrice: this.minPrice != null ? this.minPrice : undefined,
+      maxPrice: this.maxPrice != null ? this.maxPrice : undefined,
+      sortBy: this.sortBy !== 'none' ? this.sortBy : undefined
     });
+
   }
 }
