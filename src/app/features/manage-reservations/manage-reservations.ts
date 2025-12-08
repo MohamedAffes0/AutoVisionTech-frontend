@@ -155,6 +155,7 @@ export class ManageReservations implements OnInit {
           if (index !== -1) {
             this.reservations[index] = updatedReservation;
           }
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error updating reservation:', err);
@@ -217,22 +218,10 @@ export class ManageReservations implements OnInit {
     }
   }
 
-  // Get status label
-  getStatusLabel(status: string): string {
-    switch (status) {
-      case 'confirmed':
-        return 'Confirmée';
-      case 'cancelled':
-        return 'Annulée';
-      default:
-        return 'En attente';
-    }
-  }
-
   // Format date for display
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'

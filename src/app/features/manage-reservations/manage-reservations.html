@@ -10,8 +10,8 @@
           </svg>
         </div>
         <div>
-          <h1 class="page-title">Gestion des Réservations</h1>
-          <p class="page-subtitle">Gérer les rendez-vous et réservations clients</p>
+          <h1 class="page-title">Manage Reservations</h1>
+          <p class="page-subtitle">Manage client appointments and reservations</p>
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
       <div class="stat-card">
         <div class="stat-content">
           <div>
-            <p class="stat-label">En attente</p>
+            <p class="stat-label">Pending</p>
             <p class="stat-value text-yellow-400">{{ pendingReservations }}</p>
           </div>
           <div class="stat-icon yellow">
@@ -49,7 +49,7 @@
       <div class="stat-card">
         <div class="stat-content">
           <div>
-            <p class="stat-label">Confirmées</p>
+            <p class="stat-label">Confirmed</p>
             <p class="stat-value text-green-400">{{ confirmedReservations }}</p>
           </div>
           <div class="stat-icon green">
@@ -63,7 +63,7 @@
       <div class="stat-card">
         <div class="stat-content">
           <div>
-            <p class="stat-label">Annulées</p>
+            <p class="stat-label">Canceled</p>
             <p class="stat-value text-red-400">{{ cancelledReservations }}</p>
           </div>
           <div class="stat-icon red">
@@ -94,7 +94,7 @@
           <p class="text-red-400">{{ error }}</p>
         </div>
         <button (click)="retry()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all">
-          Réessayer
+          Retry
         </button>
       </div>
     </div>
@@ -128,7 +128,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="getStatusIcon(reservation.status)"/>
                   </svg>
                   <span class="px-3 py-1 rounded-full text-xs border capitalize" [ngClass]="getStatusBadgeClass(reservation.status)">
-                    {{ getStatusLabel(reservation.status) }}
+                    {{ reservation.status }}
                   </span>
                 </div>
               </div>
@@ -181,7 +181,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                Confirmer
+                Confirm
               </button>
               <button
                 (click)="updateReservationStatus(reservation.id, 'pending')"
@@ -192,7 +192,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                En attente
+                Pending
               </button>
               <button
                 (click)="updateReservationStatus(reservation.id, 'cancelled')"
@@ -203,7 +203,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                Annuler
+                Cancel
               </button>
               <button
                 (click)="deleteReservation(reservation.id)"
@@ -212,7 +212,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                 </svg>
-                Supprimer
+                Delete
               </button>
             </div>
           </div>
