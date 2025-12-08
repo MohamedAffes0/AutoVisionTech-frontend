@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 export interface SignInFormData {
   email: string;
@@ -31,7 +32,7 @@ export class Signin {
   emailError = '';
   passwordError = '';
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   // Toggle password visibility
   togglePasswordVisibility(): void {
@@ -84,24 +85,21 @@ export class Signin {
     this.isLoading = true;
     this.errorMessage = '';
 
+    console.log('Form data:', this.signInForm);
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const result = await this.authService.login(this.signInForm.email, this.signInForm.password);
 
-      console.log('Sign in attempt:', {
-        email: this.signInForm.email,
-        password: '***',
-        rememberMe: this.signInForm.rememberMe
-      });
-
-      // Here you would typically call an authentication service
-      // const response = await this.authService.signIn(this.signInForm);
-      
-      // Simulate successful login
-      alert(`Welcome back! Logging in as ${this.signInForm.email}`);
-      
-      // Navigate to dashboard or home
-      // this.router.navigate(['/dashboard']);
+      console.log('Login result:', result);
+      // If login is successful, navigate to profile
+      if ('user' in result) {
+        this.router.navigate(['/']);
+      } else {
+        this.errorMessage = 'Email or password incorrect';
+        setTimeout(() => {
+          this.errorMessage = '';
+        }, 5000);
+      }
       
     } catch (error) {
       this.errorMessage = 'Invalid email or password. Please try again.';
