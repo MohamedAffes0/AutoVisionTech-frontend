@@ -15,7 +15,7 @@
 /* Left Column */
 .left-column {
   @apply flex-1 space-y-8;
-  @apply w-full lg:w-3/5;
+  @apply w-full lg:w-3/5 max-w-1/2;
 }
 
 .car-details-section {

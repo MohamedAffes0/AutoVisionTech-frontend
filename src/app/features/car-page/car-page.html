@@ -4,7 +4,7 @@
     <!-- Left Column: Car Details + Comments -->
     <div class="left-column">
       <!-- Car Details Section -->
-      <div class="car-details-section">
+      <div class="car-details-section mb-2">
         <app-car-details [car] ="car"></app-car-details>
       </div>
       
@@ -20,7 +20,7 @@
     </div>
 
     <!-- Right Column: Reservation Form (Fixed) -->
-    <div class="right-column">
+    <div class="right-column" *ngIf="car?.status === 'available'">
       <app-reservation-form
       [car]="car"
       ></app-reservation-form>
