@@ -10,7 +10,12 @@
       
       <!-- Comments Section -->
       <div class="comments-section">
-        <app-comments></app-comments>
+        <app-comments
+          *ngIf="car"
+          [comments]="car.comments ?? []"
+          [carId]="carId"
+          (commentAdded)="onCommentAdded()"
+        ></app-comments>
       </div>
     </div>
 
