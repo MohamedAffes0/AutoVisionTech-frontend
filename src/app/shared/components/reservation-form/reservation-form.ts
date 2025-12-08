@@ -99,6 +99,7 @@ export class ReservationForm {
       this.isHiding = true;
       setTimeout(() => {
         this.showMessage = false;
+        this.cdr.detectChanges(); // Update UI
       }, 500);
     }, 3000);
   }
