@@ -73,6 +73,8 @@ export class AuthService {
    */
   async login(email: string, password: string) {
     const res = await authClient.signIn.email({ email, password });
+    console.log('authClient.signIn response:', res);
+
     if (res.data) {
       this.getSession().subscribe();
     }
