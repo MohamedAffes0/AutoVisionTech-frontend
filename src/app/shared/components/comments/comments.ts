@@ -83,7 +83,6 @@ export class Comments {
     });
   }
 
-  // Format the date
   // Format date correctly
   formatDate(date: string): string {
     return date.substring(0, 10);

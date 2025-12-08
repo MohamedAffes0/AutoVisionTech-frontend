@@ -70,19 +70,4 @@ export class CarPage {
       this.showAlert = false;
     }, 3000);
   }
-
-  //add a reservation
-  addReservation() {
-    if(this.reservationData && this.carId){
-      this.reservationService.createReservation(this.reservationData,this.carId)
-      .subscribe({
-        next: (response) => { 
-          this.showStyledAlert('Thank you for your interest, we will contact you soon!', 'success');
-        },
-        error: (err) => {
-          this.showStyledAlert('Error reserving a car visit.', 'error');
-        }
-      });
-    }
-  }
 }
