@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, NavigationEnd, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models';
@@ -25,7 +25,7 @@ export class Navbar {
   
   currentUser: User | null = null;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.isAdmin$ = this.authService.user$.pipe(
       map(user => user?.role === 'admin')
     );
@@ -35,8 +35,17 @@ export class Navbar {
     this.isActive$ = this.authService.user$.pipe(
       map(user => user?.isActive === true)
     );
-    this.authService.user$.subscribe(user => {
-      this.currentUser = user;
+    this.authService.user$.subscribe(user => this.currentUser = user);
+
+    // Detect current page for active link highlighting
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const url = event.urlAfterRedirects;
+        if (url.includes('admin-panel')) this.currentPage = 'admin-panel';
+        else if (url.includes('manage-cars')) this.currentPage = 'manage-cars';
+        else if (url.includes('manage-reservations')) this.currentPage = 'manage-reservations';
+        else this.currentPage = 'catalogue';
+      }
     });
   }
 

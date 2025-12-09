@@ -18,7 +18,7 @@ export class AdminPanel implements OnInit {
   // Edit state
   editingUser: string | null = null;
   editForm: Partial<User> = {};
-  currentUserId: string | null = null;
+  currentUserId!: string;
 
   // Add user modal
   showAddModal = false;
@@ -31,10 +31,13 @@ export class AdminPanel implements OnInit {
 
   constructor(
     private userService: UserService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.currentUserId = this.authService.currentUser?.id!;
+    console.log('Current User ID:', this.currentUserId);
     this.loadUsers();
   }
 
@@ -173,6 +176,7 @@ export class AdminPanel implements OnInit {
       },
       error: () => alert("Failed to create user")
     });
+    this.closeAddModal();
   }
 
   // Check if new user form is valid
