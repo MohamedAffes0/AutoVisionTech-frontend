@@ -137,7 +137,7 @@
               <td class="whitespace-nowrap">
                 <!-- Edit Mode Actions -->
                 <div *ngIf="isEditing(user.id)" class="flex items-center gap-2">
-                  <button (click)="handleSaveEdit(user.id)" class="action-btn save-btn" title="Save">
+                  <button (click)="handleSaveEdit(user)" class="action-btn save-btn" title="Save">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                   </button>
                   <button (click)="handleCancelEdit()" class="action-btn cancel-btn" title="Cancel">
