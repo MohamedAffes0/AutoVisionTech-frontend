@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { User } from 'src/app/core/models';
+import { CreateUserDto, User } from 'src/app/core/models';
 import { UserService } from 'src/app/core/services/user.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -22,16 +22,14 @@ export class AdminPanel implements OnInit {
 
   // Add user modal
   showAddModal = false;
-  newUserForm = {
+  newUserForm: CreateUserDto = {
     name: '',
     email: '',
     password: '',
     role: 'agent' as 'admin' | 'agent',
-    image: ''
   };
 
   constructor(
-    private authService: AuthService,
     private userService: UserService,
     private cdr: ChangeDetectorRef
   ) {}
@@ -165,12 +163,15 @@ export class AdminPanel implements OnInit {
   // Add new user
   handleAddUser(): void {
     if (!this.isNewUserFormValid()) return alert("Invalid data");
-    this.authService.signUp(this.newUserForm).subscribe({
-      next: (newUser) => {
+    this.userService.createUser(this.newUserForm).subscribe({
+      next: (createdUser) => {
+        if(this.users){
+          this.users.push(createdUser);
+          this.cdr.detectChanges();
+        }
         this.closeAddModal();
-        alert(`User ${newUser.user.name} added successfully!`);
       },
-      error: () => alert("Failed to add user")
+      error: () => alert("Failed to create user")
     });
   }
 
@@ -195,7 +196,6 @@ export class AdminPanel implements OnInit {
       email: '',
       password: '',
       role: 'agent',
-      image: ''
     };
   }
 
