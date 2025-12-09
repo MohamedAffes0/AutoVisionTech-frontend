@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Hero } from '@shared/components/hero/hero';
 
 interface User {
   id: string;
@@ -16,11 +17,17 @@ interface User {
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Hero],
   templateUrl: './profile-page.html',
   styleUrls: ['./profile-page.css']
 })
 export class ProfilePage {
+  protected heroIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="brand-icon w-15 h-15" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </svg>
+    `;
+
   protected readonly currentUser = signal<User>({
     id: '1',
     name: 'Jean Dupont',

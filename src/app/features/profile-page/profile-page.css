@@ -2,14 +2,11 @@
 @import "tailwindcss";
 
 /* Profile Picture Section */
-
-
 .profile-picture-default {
   @apply w-32 h-32 rounded-2xl flex items-center justify-center shadow-xl;
   background: linear-gradient(135deg, #3b82f6, #06b6d4);
   box-shadow: var(--shadow-glow-blue);
 }
-
 
 /* Badge Variants */
 .badge-admin {
@@ -58,7 +55,6 @@
 }
 
 /* Modal Danger Specific */
-
 .modal-danger-icon {
   @apply inline-flex items-center justify-center w-12 h-12 mb-4 rounded-full;
   @apply bg-red-500/10 text-red-400;
