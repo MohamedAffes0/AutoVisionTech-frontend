@@ -40,7 +40,7 @@ export class Footer {
   // Footer Links
   protected readonly quickLinks: FooterLink[] = [
     { label: 'Car Catalog', action: '/' },
-    { label: 'About Us', action: '/about' },
+    { label: 'About Us', action: '/about-us' },
     { label: 'Services', action: '/services' },
     { label: 'Financing', action: '/financing' },
     { label: 'Trade-In', action: '/trade-in' }

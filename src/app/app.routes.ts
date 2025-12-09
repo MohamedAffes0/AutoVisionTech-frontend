@@ -7,6 +7,7 @@ import { Signin } from './features/signin/signin';
 import { ManageReservations } from './features/manage-reservations/manage-reservations';
 import { CarPage } from './features/car-page/car-page';
 import { ProfilePage } from './features/profile-page/profile-page';
+import { AboutUs } from './features/about-us/about-us';
 
 export const routes: Routes = [
   { path: '', component: MainPage },
@@ -17,5 +18,6 @@ export const routes: Routes = [
   { path: 'manage-reservations', component: ManageReservations },
   { path: 'car-page/:id', component: CarPage },
   { path: 'profile', component: ProfilePage },
+  { path: 'about-us', component: AboutUs},
   { path: '**', redirectTo: '' },
 ];
