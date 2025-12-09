@@ -23,19 +23,26 @@ export class Navbar {
   mobileMenuOpen = false;
   currentPage = 'catalogue';
   
-  currentUser: User | null = null;
+  currentUser$: Observable<User | null>;
+
+  // ngOnInit() {
+  //   this.authService.user$.subscribe(user => {
+  //     this.currentUser = user;
+  //     console.log('Current User in Navbar inside subscription:', this.currentUser);
+  //   });
+  // }
 
   constructor(private authService: AuthService, private router: Router) {
+    this.currentUser$ = this.authService.user$;
     this.isAdmin$ = this.authService.user$.pipe(
-      map(user => user?.role === 'admin')
+      map(user => user?.role == 'admin')
     );
     this.isAgent$ = this.authService.user$.pipe(
-      map(user => user?.role === 'agent')
+      map(user => user?.role == 'agent')
     );
     this.isActive$ = this.authService.user$.pipe(
       map(user => user?.isActive === true)
     );
-    this.authService.user$.subscribe(user => this.currentUser = user);
 
     // Detect current page for active link highlighting
     this.router.events.subscribe(event => {
