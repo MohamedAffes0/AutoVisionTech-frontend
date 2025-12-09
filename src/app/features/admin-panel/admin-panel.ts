@@ -36,9 +36,11 @@ export class AdminPanel implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currentUserId = this.authService.currentUser?.id!;
-    console.log('Current User ID:', this.currentUserId);
-    this.loadUsers();
+    this.authService.user$.subscribe(user => {
+      if (!user) return;
+      this.currentUserId = user.id; // Get current admin user ID
+      this.loadUsers(); // Load users after getting current user ID
+    });
   }
 
   async loadUsers() {
