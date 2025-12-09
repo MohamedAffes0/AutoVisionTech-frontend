@@ -10,6 +10,7 @@ import { ProfilePage } from './features/profile-page/profile-page';
 import { AboutUs } from './features/about-us/about-us';
 import { Services } from './features/services/services';
 import { Financing } from './features/financing/financing';
+import { TradeIn } from './features/trade-in/trade-in';
 
 export const routes: Routes = [
   { path: '', component: MainPage },
@@ -23,5 +24,6 @@ export const routes: Routes = [
   { path: 'about-us', component: AboutUs},
   { path: 'services', component: Services},
   { path: 'financing', component: Financing},
+  { path: 'trade-in', component: TradeIn},
   { path: '**', redirectTo: '' },
 ];
