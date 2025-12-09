@@ -25,13 +25,6 @@ export class Navbar {
   
   currentUser$: Observable<User | null>;
 
-  // ngOnInit() {
-  //   this.authService.user$.subscribe(user => {
-  //     this.currentUser = user;
-  //     console.log('Current User in Navbar inside subscription:', this.currentUser);
-  //   });
-  // }
-
   constructor(private authService: AuthService, private router: Router) {
     this.currentUser$ = this.authService.user$;
     this.isAdmin$ = this.authService.user$.pipe(

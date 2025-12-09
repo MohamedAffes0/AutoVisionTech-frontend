@@ -118,7 +118,6 @@
   <!-- Mobile Navigation -->
   <div 
     *ngIf="mobileMenuOpen" 
-    [@fadeIn]
     class="md:hidden backdrop-blur-xl bg-[#131820] bg-opacity-95 border-t border-slate-700 border-opacity-50">
     <div class="px-4 py-4 space-y-2">
       <button 
@@ -140,7 +139,7 @@
         }"
         class="w-full text-left px-4 py-2 rounded-lg"
         (click)="currentPage='manage-reservations'"
-        *ngIf="(currentUser$ | async) as user"
+        *ngIf="(currentUser$ | async) as user; else: null"
         [hidden]="user.role !== 'agent' || !user.isActive"
         >
         Reservations
@@ -153,7 +152,7 @@
         }"
         class="w-full text-left px-4 py-2 rounded-lg"
         (click)="currentPage='manage-cars'"
-        *ngIf="(currentUser$ | async) as user"
+        *ngIf="(currentUser$ | async) as user; else: null"
         [hidden]="user.role !== 'agent' || !user.isActive"
         >
         Manage Cars
@@ -166,7 +165,7 @@
         }"
         class="w-full text-left px-4 py-2 rounded-lg"
         (click)="currentPage='admin-panel'"
-        *ngIf="(currentUser$ | async) as user"
+        *ngIf="(currentUser$ | async) as user; else: null"
         [hidden]="user.role !== 'admin' || !user.isActive"
         >
         Admin Panel
