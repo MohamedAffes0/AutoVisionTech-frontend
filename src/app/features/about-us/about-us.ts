@@ -62,9 +62,9 @@ export class AboutUs {
       bio: 'Expert in luxury automotive sales and customer relations'
     },
     {
-      name: 'Meddeb Ghazi',
+      name: 'Ouali Ayoub',
       role: 'Technical Director',
-      image: 'ghazi.jpg',
+      image: 'wali.jpg',
       bio: 'Certified technician specializing in premium vehicles'
     },
   ];

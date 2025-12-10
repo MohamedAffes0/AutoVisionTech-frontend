@@ -59,6 +59,7 @@ export class Navbar {
   async signOut(): Promise<void> {
     await this.authService.logout();
     this.currentPage = 'catalog';
+    this.router.navigate(['/']);
   }
 
   // Check Active Page

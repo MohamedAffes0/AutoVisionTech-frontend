@@ -59,30 +59,33 @@ export class ProfilePage {
     });
   }
 
+  // Edit Profile Methods
   protected startEditing(): void {
-    this.isEditing.set(true);
-    if(this.currentUser){
-      this.formData.set({
-      name: this.currentUser.name,
-      email: this.currentUser.email,
-      image: null,
-      imagePreview: this.currentUser.image
-    });
+      this.isEditing.set(true);
+      if(this.currentUser){
+        this.formData.set({
+        name: this.currentUser.name,
+        email: this.currentUser.email,
+        image: null,
+        imagePreview: this.currentUser.image
+      });
+    }
   }
-}
 
+  // Cancel Editing
   protected cancelEditing(): void {
     this.isEditing.set(false);
     if(this.currentUser){
       this.formData.set({
-      name: this.currentUser.name,
-      email: this.currentUser.email,
-      image: null,
-      imagePreview: this.currentUser.image
-    });
-  }
+        name: this.currentUser.name,
+        email: this.currentUser.email,
+        image: null,
+        imagePreview: this.currentUser.image
+      });
+    }
   }
 
+  // Image Selection
   protected onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -110,70 +113,75 @@ export class ProfilePage {
     }
   }
 
+  // Trigger Image Upload
   protected triggerImageUpload(): void {
     const input = document.getElementById('imageUpload') as HTMLInputElement;
     input?.click();
   }
 
-protected saveProfile(): void {
-  const form = this.formData();
-  
-  if (!form.name.trim()) {
-    alert('Name is required');
-    return;
-  }
-
-  if (!form.email.trim() || !form.email.includes('@')) {
-    alert('Valid email is required');
-    return;
-  }
-
-  this.isSaving = true;
-  this.saveError = '';
-
-  const data: UpdateProfileDto = {
-    name: form.name,
-    email: form.email
-  };
-
-  //update profile
-  this.userService.updateProfile(data).subscribe({
-    next: (updatedUser) => {
-      console.log('Profile basic data updated', updatedUser);
-
-      //check if the profile pic got updated
-      if (form.image) {
-        this.userService.updateProfileImage(form.image).subscribe({
-          next: (response) => {
-            this.isSaving = false;
-            this.isEditing.set(false);
-
-            alert('Profile and photo updated successfully!');
-          },
-          error: (err) => {
-            this.isSaving = false;
-            this.saveError = 'Photo upload failed.';
-            console.error(err);
-          }
-        });
-
-      } else {
-        // No image to update
-        this.isSaving = false;
-        this.isEditing.set(false);
-
-        alert('Profile updated successfully!');
-      }
-    },
-
-    error: (err) => {
-      this.isSaving = false;
-      this.saveError = 'Failed to save profile information.';
-      console.error(err);
+  // Save Profile
+  protected saveProfile(): void {
+    const form = this.formData();
+    
+    if (!form.name.trim()) {
+      alert('Name is required');
+      return;
     }
-  });
-}
 
+    if (!form.email.trim() || !form.email.includes('@')) {
+      alert('Valid email is required');
+      return;
+    }
+
+    this.isSaving = true;
+    this.saveError = '';
+
+    const data: UpdateProfileDto = {
+      name: form.name,
+      email: form.email
+    };
+
+    //update profile
+    this.userService.updateProfile(data).subscribe({
+      next: (updatedUser) => {
+        console.log('Profile basic data updated', updatedUser);
+
+        //check if the profile pic got updated
+        if (form.image) {
+          this.userService.updateProfileImage(form.image).subscribe({
+            next: (response) => {
+              this.isSaving = false;
+              this.isEditing.set(false);
+
+              alert('Profile and photo updated successfully!');
+            },
+            error: (err) => {
+              this.isSaving = false;
+              this.saveError = 'Photo upload failed.';
+              console.error(err);
+              alert(err.message || 'Photo upload failed.');
+            }
+          });
+
+        } else {
+          // No image to update
+          this.isSaving = false;
+          this.isEditing.set(false);
+
+          alert('Profile updated successfully!');
+        }
+      },
+
+      error: (err) => {
+        this.isSaving = false;
+        this.saveError = 'Failed to save profile information.';
+        console.error(err);
+        alert(err.error.message || 'Failed to save profile information.');
+      }
+    });
+  }
+
+  // Change Password Methods
   protected openPasswordModal(): void {
     this.showPasswordModal.set(true);
     this.passwordForm.set({
@@ -183,10 +191,12 @@ protected saveProfile(): void {
     });
   }
 
+  // Close Password Modal
   protected closePasswordModal(): void {
     this.showPasswordModal.set(false);
   }
 
+  // Change Password
   protected changePassword(): void {
     const form = this.passwordForm();
 
@@ -195,8 +205,8 @@ protected saveProfile(): void {
       return;
     }
 
-    if (!form.newPassword || form.newPassword.length < 6) {
-      alert('New password must be at least 6 characters');
+    if (!form.newPassword || form.newPassword.length < 8) {
+      alert('New password must be at least 8 characters');
       return;
     }
 
@@ -205,7 +215,7 @@ protected saveProfile(): void {
       return;
     }
 
-        // API Call to change password
+    // API Call to change password
     this.userService
       .changePassword({
         currentPassword: form.currentPassword,
@@ -218,20 +228,23 @@ protected saveProfile(): void {
           this.closePasswordModal();
         },
         error: (err) => {
-          alert('Failed to update password');
+          alert(err.error.message || 'Failed to update password');
         },
       });
   }
 
+  // Delete Account Methods
   protected openDeleteModal(): void {
     this.showDeleteModal.set(true);
     this.deleteConfirmation.set('');
   }
 
+  // Close Delete Modal
   protected closeDeleteModal(): void {
     this.showDeleteModal.set(false);
   }
 
+  // Delete Account
   protected deleteAccount(): void {
     if (this.deleteConfirmation() !== 'DELETE') {
       alert('Please type DELETE to confirm');
@@ -253,14 +266,17 @@ protected saveProfile(): void {
     this.closeDeleteModal();
   }
 
+  // Update Form Field
   protected updateFormField(field: string, value: string): void {
     this.formData.update(data => ({ ...data, [field]: value }));
   }
 
+  // Update Password Field
   protected updatePasswordField(field: string, value: string): void {
     this.passwordForm.update(form => ({ ...form, [field]: value }));
   }
 
+  // Get Joined Date
   protected getJoinedDate(): string {
     if (!this.currentUser) return '';
     return new Date(this.currentUser.createdAt).toLocaleDateString('en-US', { 
