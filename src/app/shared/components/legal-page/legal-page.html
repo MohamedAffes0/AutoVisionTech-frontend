@@ -16,8 +16,7 @@
       <span>Last Updated: {{ lastUpdated }}</span>
     </div>
 
-    <!-- Layout avec TOC (pour pages légales) -->
-    <div class="grid lg:grid-cols-4 gap-8" *ngIf="!useCustomLayout">
+    <div class="grid lg:grid-cols-4 gap-8">
       
       <!-- Table of Contents (Sticky Sidebar) -->
       <aside class="lg:col-span-1" *ngIf="quickLinks.length > 0">
@@ -44,38 +43,30 @@
             [id]="section.id"
             class="policy-section"
           >
-            <!-- Template personnalisé si fourni -->
-            <ng-container *ngIf="section.template">
-              <ng-container *ngTemplateOutlet="section.template"></ng-container>
-            </ng-container>
+            <h2 class="section-heading">{{ section.title }}</h2>
+            
+            <!-- Simple Content -->
+            <p *ngIf="section.content" class="section-content">
+              {{ section.content }}
+            </p>
 
-            <!-- Contenu standard -->
-            <ng-container *ngIf="!section.template">
-              <h2 class="section-heading">{{ section.title }}</h2>
-              
-              <!-- Simple Content -->
-              <p *ngIf="section.content" class="section-content">
-                {{ section.content }}
-              </p>
-
-              <!-- Subsections -->
-              <div *ngIf="section.subsections" class="subsections">
-                <div *ngFor="let sub of section.subsections" class="subsection">
-                  <h3 class="subsection-title">{{ sub.subtitle }}</h3>
-                  <p class="subsection-content">{{ sub.content }}</p>
-                </div>
+            <!-- Subsections -->
+            <div *ngIf="section.subsections" class="subsections">
+              <div *ngFor="let sub of section.subsections" class="subsection">
+                <h3 class="subsection-title">{{ sub.subtitle }}</h3>
+                <p class="subsection-content">{{ sub.content }}</p>
               </div>
+            </div>
 
-              <!-- List -->
-              <ul *ngIf="section.list" class="section-list">
-                <li *ngFor="let item of section.list" class="list-item">
-                  <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  <span>{{ item }}</span>
-                </li>
-              </ul>
-            </ng-container>
+            <!-- List -->
+            <ul *ngIf="section.list" class="section-list">
+              <li *ngFor="let item of section.list" class="list-item">
+                <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>{{ item }}</span>
+              </li>
+            </ul>
           </section>
 
           <!-- Important Notice -->
@@ -95,11 +86,6 @@
       </main>
 
     </div>
-
-    <!-- Layout personnalisé (pour Services et autres pages) -->
-    <ng-container *ngIf="useCustomLayout && customContent">
-      <ng-container *ngTemplateOutlet="customContent"></ng-container>
-    </ng-container>
 
     <!-- Contact CTA -->
     <div class="contact-cta-section" *ngIf="showContactCTA">

@@ -7,7 +7,7 @@ import { LegalPage, LegalSection, QuickLink } from '@shared/components/legal-pag
   standalone: true,
   imports: [CommonModule, LegalPage],
   templateUrl: './privacy.html',
-  styleUrls: ['./privacy.css', '../../shared/styles/legal-pages.css']
+  styleUrls: ['./privacy.css']
 })
 export class Privacy {
   protected heroIcon = `
