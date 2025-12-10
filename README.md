@@ -1,59 +1,258 @@
-# AutoVisionTechFrontend
+<p align="center">
+    <picture>
+        <img src="./docs/images/logo.png" width=450px>
+    </picture>
+</p>
+<p align="center">
+    <image src="https://img.shields.io/badge/Angular-19-red?logo=angular">
+    <image src="https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript">
+    <image src="https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?logo=tailwindcss">
+    <image src="https://img.shields.io/badge/License-MIT-green">
+</p>
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+## Table des matières
 
-## Development server
+- [Vue d'ensemble](#-vue-densemble)
+- [Fonctionnalités](#-fonctionnalités)
+- [Documentation](#-documentation)
+- [Installation](#-installation)
+- [Utilisation](#-utilisation)
+- [Scripts disponibles](#-scripts-disponibles)
+- [Structure du projet](#-structure-du-projet)
 
-To start a local development server, run:
+## Vue d'ensemble
 
+AutoVisionTech est une plateforme web moderne et élégante pour la vente de voitures premium. Conçue avec Angular 19 et TailwindCSS, elle offre une expérience utilisateur fluide et intuitive pour la gestion de véhicules de luxe.
+
+### Points forts
+
+- **Interface moderne** : Design glassmorphism avec animations fluides
+- **Architecture scalable** : Structure modulaire et réutilisable
+- **Authentification sécurisée** : Système d'authentification avec Better Auth
+- **Gestion complète** : CRUD complet pour véhicules, réservations et utilisateurs
+- **Responsive** : Interface adaptative pour tous les appareils
+- **Performance optimisée** : SSR avec Angular Universal
+
+## Fonctionnalités
+
+### Pour les visiteurs
+- Catalogue de véhicules avec filtres avancés
+- Réservation de rendez-vous en ligne
+- Système de commentaires
+- Détails complets des véhicules
+- Programme d'échange (Trade-in)
+
+### Pour les agents
+- Gestion des véhicules (CRUD)
+- Gestion des réservations
+- Tableau de bord statistiques
+- Upload d'images (max 5 par véhicule)
+
+### Pour les administrateurs
+- Gestion des utilisateurs
+- Attribution des rôles
+- Panel d'administration complet
+- Contrôle d'activation des comptes
+
+### Pages statiques
+- À propos
+- Services
+- Financement
+- Trade-in
+- FAQ
+- Contact
+- Politique de confidentialité
+- Conditions d'utilisation
+- Garantie
+
+## 📚 Documentation
+
+Consultez les fichiers de documentation détaillés :
+
+- [`STRUCTURE.md`](./docs/STRUCTURE.md) - Architecture et organisation du projet
+- [`TECHNOLOGIES.md`](./docs/TECHNOLOGIES.md) - Stack technique détaillée
+- [`FEATURES.md`](./docs/FEATURES.md) - Fonctionnalités complètes
+- [`DESIGN.md`](./docs/DESIGN.md) - Guide de style et composants UI
+- [`API.md`](./docs/API.md) - Documentation de l'API
+- [`SECURITY.md`](./docs/SECURITY.md) - Authentification et sécurité
+
+## Installation
+
+### Prérequis
+
+- Node.js >= 18.19.0
+- npm >= 10.0.0
+- Angular CLI 19
+
+### Étapes d'installation
+
+1. **Cloner le repository**
 ```bash
-ng serve
+git clone https://github.com/MohamedAffes0/AutoVisionTech-frontend.git
+cd autovisiontech
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+2. **Installer les dépendances**
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+3. **Configuration de l'environnement**
 ```bash
-ng generate --help
+# Créer le fichier .env à la racine
+cp .env.example .env
 ```
 
-## Building
+Configurer les variables d'environnement :
+```env
+# API Configuration
+API_BASE_URL=http://localhost:3000
 
-To build the project run:
-
-```bash
-ng build
+# Authentication
+AUTH_SECRET=your-secret-key-here
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
+4. **Démarrer le serveur de développement**
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+L'application sera accessible sur `http://localhost:4200`
 
-For end-to-end (e2e) testing, run:
+## Utilisation
 
-```bash
-ng e2e
+### Comptes de test
+
+**Administrateur**
+```
+Email: admin@autovision.com
+Password: Admin123!
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+**Agent**
+```
+Email: agent@autovision.com
+Password: Agent123!
+```
 
-## Additional Resources
+### Workflow typique
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. **Visiteur** : Parcourir le catalogue → Réserver un rendez-vous
+2. **Agent** : Ajouter des véhicules → Gérer les réservations
+3. **Admin** : Gérer les utilisateurs → Superviser l'activité
+
+## Scripts disponibles
+
+```bash
+# Développement
+npm start              # Démarrer le serveur de développement
+npm run dev            # Alias pour start
+
+# Build
+npm run build          # Build de production
+npm run watch          # Build en mode watch
+
+# Tests
+npm test               # Lancer les tests unitaires
+npm run test:coverage  # Tests avec couverture de code
+
+# Server-Side Rendering
+npm run serve:ssr:ArtisanArt-frontend  # Serveur SSR
+
+# Linting & Formatting
+npm run lint           # Vérifier le code
+npm run format         # Formater le code
+```
+
+## Structure du projet
+
+```
+src/
+├── app/
+│   ├── core/              # Services et modèles
+│   │   ├── models/        # Interfaces TypeScript
+│   │   └── services/      # Services métier
+│   ├── features/          # Modules fonctionnels
+│   │   ├── admin-panel/
+│   │   ├── car-page/
+│   │   ├── main-page/
+│   │   ├── manage-cars/
+│   │   ├── manage-reservations/
+│   │   ├── profile-page/
+│   │   ├── signin/
+│   │   ├── signup/
+│   │   └── static/        # Pages statiques
+│   └── shared/            # Composants partagés
+│       └── components/
+├── lib/                   # Librairies externes
+└── styles.css            # Styles globaux
+```
+
+Voir [`STRUCTURE.md`](./docs/STRUCTURE.md) pour plus de détails.
+
+## Configuration
+
+### TailwindCSS
+
+La configuration Tailwind se trouve dans `tailwind.config.js`. Le projet utilise :
+- Variables CSS personnalisées
+- Thème dark par défaut
+- Classes utilitaires étendues
+
+### Angular
+
+Configuration dans `angular.json` :
+- SSR activé
+- Optimisations de build
+- Source maps pour le débogage
+
+## Déploiement
+
+### Build de production
+
+```bash
+npm run build
+```
+
+Les fichiers de build seront dans `dist/artisan-art-frontend/browser/`
+
+### Déploiement SSR
+
+```bash
+npm run build
+npm run serve:ssr:ArtisanArt-frontend
+```
+
+## Contribution
+
+Les contributions sont les bienvenues ! Voici comment contribuer :
+
+1. Fork le projet
+2. Créer une branche feature (`git checkout -b feature/AmazingFeature`)
+3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
+
+### Guidelines
+
+- Suivre les conventions de code Angular
+- Écrire des tests pour les nouvelles fonctionnalités
+- Documenter les changements importants
+- Respecter les standards ESLint
+
+## Rapporter un bug
+
+Utiliser les [GitHub Issues](https://github.com/MohamedAffes0/AutoVisionTech-frontend/issues) avec :
+- Description claire du problème
+- Steps to reproduce
+- Comportement attendu vs actuel
+- Screenshots si applicable
+- Environnement (OS, navigateur, version)
+
+## License
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+⭐ Si vous aimez ce projet, n'hésitez pas à lui donner une étoile sur GitHub !
