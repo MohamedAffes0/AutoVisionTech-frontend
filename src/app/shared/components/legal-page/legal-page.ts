@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Hero } from '@shared/components/hero/hero';
 
@@ -11,7 +11,6 @@ export interface LegalSection {
     content: string;
   }>;
   list?: string[];
-  template?: TemplateRef<any>; // Pour du contenu personnalisé
 }
 
 export interface QuickLink {
@@ -38,10 +37,6 @@ export class LegalPage {
   @Input() contactEmail?: string;
   @Input() contactTitle?: string;
   @Input() contactDescription?: string;
-  
-  // Nouveaux inputs pour supporter du contenu personnalisé (comme Services)
-  @Input() customContent?: TemplateRef<any>;
-  @Input() useCustomLayout: boolean = false;
 
   protected scrollToSection(id: string): void {
     const element = document.getElementById(id);

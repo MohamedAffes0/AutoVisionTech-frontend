@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Hero } from '@shared/components/hero/hero';
+import { LegalPage, LegalSection, QuickLink } from '@shared/components/legal-page/legal-page';
 
 @Component({
   selector: 'app-terms',
   standalone: true,
-  imports: [CommonModule, Hero],
+  imports: [CommonModule, LegalPage],
   templateUrl: './terms.html',
-  styleUrls: ['./terms.css', '../../shared/styles/legal-pages.css']
+  styleUrls: ['./terms.css']
 })
 export class Terms {
   protected heroIcon = `
@@ -16,9 +16,11 @@ export class Terms {
     </svg>
   `;
 
+  protected heroName = 'Terms of Service';
+  protected heroSubtitle = 'Please Read These Terms Carefully Before Using Our Services';
   protected lastUpdated = 'December 10, 2025';
 
-  protected sections = [
+  protected sections: LegalSection[] = [
     {
       id: 'acceptance',
       title: 'Acceptance of Terms',
@@ -158,7 +160,7 @@ export class Terms {
     }
   ];
 
-  protected quickLinks = [
+  protected quickLinks: QuickLink[] = [
     { label: 'Acceptance of Terms', id: 'acceptance' },
     { label: 'Eligibility', id: 'eligibility' },
     { label: 'User Accounts', id: 'account' },
@@ -169,10 +171,9 @@ export class Terms {
     { label: 'Contact Information', id: 'contact' }
   ];
 
-  protected scrollToSection(id: string): void {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
+  protected showImportantNotice = true;
+  protected showContactCTA = true;
+  protected contactEmail = 'legal@autovision.com';
+  protected contactTitle = 'Have Questions About Our Terms?';
+  protected contactDescription = 'Our legal team is here to help. Contact us if you have any questions or concerns about our Terms of Service.';
 }
