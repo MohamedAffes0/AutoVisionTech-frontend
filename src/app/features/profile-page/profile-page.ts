@@ -117,8 +117,7 @@ export class ProfilePage {
 
 protected saveProfile(): void {
   const form = this.formData();
-
-  // --- VALIDATION ---
+  
   if (!form.name.trim()) {
     alert('Name is required');
     return;
@@ -206,9 +205,22 @@ protected saveProfile(): void {
       return;
     }
 
-    console.log('Password changed successfully');
-    alert('Password changed successfully!');
-    this.closePasswordModal();
+        // API Call to change password
+    this.userService
+      .changePassword({
+        currentPassword: form.currentPassword,
+        newPassword: form.newPassword,
+      })
+      .subscribe({
+        next: () => {
+          console.log('Password changed successfully');
+          alert('Password changed successfully!');
+          this.closePasswordModal();
+        },
+        error: (err) => {
+          alert('Failed to update password');
+        },
+      });
   }
 
   protected openDeleteModal(): void {
