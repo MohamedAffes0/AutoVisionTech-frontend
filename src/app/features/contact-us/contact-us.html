@@ -1,0 +1,192 @@
+<div class="contact-page">
+  <!-- Hero Section -->
+  <app-hero 
+    [heroName]="'Get In Touch'" 
+    [heroSubtitle]="'We\'re Here to Help - Reach Out to Our Team Anytime'" 
+    [heroIcon]="heroIcon">
+  </app-hero>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    
+    <!-- Success Message -->
+    <div *ngIf="formSubmitted()" class="success-banner mb-8">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <div>
+        <p class="font-semibold">Message Sent Successfully!</p>
+        <p class="text-sm">Thank you for contacting us. We'll respond within 24 hours.</p>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8 mb-16">
+      
+      <!-- Contact Form -->
+      <div class="lg:col-span-2">
+        <div class="contact-form-card">
+          <h2 class="text-2xl font-bold text-white mb-6">Send Us a Message</h2>
+          
+          <form (ngSubmit)="onSubmit()" class="space-y-6">
+            
+            <!-- Name & Email -->
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-field">
+                <label class="field-label">Full Name *</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="contactForm.name"
+                  name="name"
+                  placeholder="John Doe"
+                  class="field-input"
+                  required
+                />
+              </div>
+
+              <div class="form-field">
+                <label class="field-label">Email Address *</label>
+                <input 
+                  type="email" 
+                  [(ngModel)]="contactForm.email"
+                  name="email"
+                  placeholder="john@example.com"
+                  class="field-input"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Phone & Subject -->
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-field">
+                <label class="field-label">Phone Number</label>
+                <input 
+                  type="tel" 
+                  [(ngModel)]="contactForm.phone"
+                  name="phone"
+                  placeholder="+216 12 345 678"
+                  class="field-input"
+                />
+              </div>
+
+              <div class="form-field">
+                <label class="field-label">Subject *</label>
+                <select 
+                  [(ngModel)]="contactForm.subject"
+                  name="subject"
+                  class="field-input"
+                  required
+                >
+                  <option *ngFor="let subject of subjects" [value]="subject.value">
+                    {{ subject.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-field">
+              <label class="field-label">Message *</label>
+              <textarea 
+                [(ngModel)]="contactForm.message"
+                name="message"
+                placeholder="How can we help you?"
+                rows="6"
+                class="field-input resize-none"
+                required
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              [disabled]="!isFormValid()" 
+              class="submit-btn w-full"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+              </svg>
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Contact Methods -->
+      <div class="space-y-6">
+        <div
+          *ngFor="let method of contactMethods"
+          class="contact-method-card"
+        >
+          <div class="method-icon-wrapper">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="method.icon"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">{{ method.title }}</h3>
+          <a 
+            *ngIf="method.link; else noLink" 
+            [href]="method.link"
+            class="text-blue-400 hover:text-blue-300 transition-colors font-medium"
+          >
+            {{ method.value }}
+          </a>
+          <ng-template #noLink>
+            <p class="text-blue-400 font-medium">{{ method.value }}</p>
+          </ng-template>
+          <p class="text-slate-400 text-sm mt-1">{{ method.description }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Departments -->
+    <section class="mb-16">
+      <h2 class="section-title text-center mb-12">Contact Our Departments</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div *ngFor="let dept of departments" class="department-card">
+          <div class="dept-icon-wrapper">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="dept.icon"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-4">{{ dept.name }}</h3>
+          <div class="space-y-2">
+            <a [href]="'mailto:' + dept.email" class="dept-contact">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              <span>{{ dept.email }}</span>
+            </a>
+            <a [href]="'tel:' + dept.phone" class="dept-contact">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+              </svg>
+              <span>{{ dept.phone }}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="mb-16">
+      <div class="map-card">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">Visit Our Showroom</h2>
+        <div class="map-placeholder">
+          <svg class="w-16 h-16 text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <p class="text-lg font-semibold text-white mb-2">AutoVisionTech Showroom</p>
+          <p class="text-slate-400 mb-4">Sfax, Tunisia</p>
+          <a href="https://maps.google.com" target="_blank" class="btn-active px-6 py-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            Get Directions
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

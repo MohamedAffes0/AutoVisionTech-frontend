@@ -49,7 +49,7 @@ export class Footer {
   // Support Links
   protected readonly supportLinks: FooterLink[] = [
     { label: 'FAQ', action: '/faq' },
-    { label: 'Contact Us', action: '/contact' },
+    { label: 'Contact Us', action: '/contact-us' },
     { label: 'Privacy Policy', action: '/privacy' },
     { label: 'Terms of Service', action: '/terms' },
     { label: 'Warranty', action: '/warranty' }
