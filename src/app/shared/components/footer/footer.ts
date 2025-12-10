@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 interface FooterLink {
   label: string;
@@ -90,7 +90,16 @@ export class Footer {
 
   // Navigation Handler
   protected onNavigate(page: string): void {
-    this.router.navigate([page]);
+    this.router.navigate([page]).then(() => {
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
   }
 
   // SVG Icon Getters
