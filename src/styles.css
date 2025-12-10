@@ -157,7 +157,7 @@ button:active {
 }
 
 .btn-active {
-  @apply bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl;
+  @apply bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-xl;
   @apply hover:shadow-(--shadow-glow-blue);
   @apply flex justify-center items-center gap-2;
 }
@@ -169,7 +169,7 @@ button:active {
 }
 
 .btn-logout {
-  @apply bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl flex items-center gap-2 transition-all duration-300;
+  @apply bg-linear-to-r from-red-600 to-red-700 text-white rounded-xl flex items-center gap-2 transition-all duration-300;
 }
 
 .btn-logout:hover {
@@ -398,13 +398,13 @@ button:active {
    ============================================ */
 .checkbox-custom {
   @apply w-5 h-5 rounded border-2 border-slate-600;
-  @apply bg-slate-700/50 flex-shrink-0 mt-0.5;
+  @apply bg-slate-700/50 shrink-0 mt-0.5;
   @apply transition-all duration-200;
   @apply relative flex items-center justify-center;
 }
 
 .checkbox-input:checked + .checkbox-custom {
-  @apply bg-gradient-to-br from-blue-600 to-cyan-600;
+  @apply bg-linear-to-br from-blue-600 to-cyan-600;
   @apply border-blue-500;
   box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
 }
@@ -432,7 +432,7 @@ button:active {
    ============================================ */
 .submit-btn {
   @apply w-full py-4 rounded-xl;
-  @apply bg-gradient-to-r from-blue-600 to-cyan-600;
+  @apply bg-linear-to-r from-blue-600 to-cyan-600;
   @apply text-white font-semibold;
   @apply flex items-center justify-center gap-2;
   @apply transition-all duration-300;
@@ -638,7 +638,7 @@ button:active {
 
 .btn-modal-submit {
   @apply flex items-center gap-2 px-5 py-2.5 rounded-xl;
-  @apply bg-gradient-to-r from-green-600 to-green-700;
+  @apply bg-linear-to-r from-green-600 to-green-700;
   @apply hover:from-green-700 hover:to-green-800;
   @apply text-white font-medium transition-all duration-300;
   @apply disabled:opacity-50 disabled:cursor-not-allowed;

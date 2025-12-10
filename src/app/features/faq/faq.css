@@ -38,7 +38,7 @@
 }
 
 .category-btn.active {
-  @apply border-blue-500/50 bg-gradient-to-br from-blue-600/20 to-cyan-600/20;
+  @apply border-blue-500/50 bg-linear-to-br from-blue-600/20 to-cyan-600/20;
   @apply text-white;
   box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
 }
@@ -68,7 +68,7 @@
 }
 
 .faq-icon {
-  @apply w-6 h-6 text-blue-400 flex-shrink-0;
+  @apply w-6 h-6 text-blue-400 shrink-0;
   @apply transition-transform duration-300;
 }
 
