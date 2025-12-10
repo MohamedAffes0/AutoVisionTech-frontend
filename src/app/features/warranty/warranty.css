@@ -1,0 +1,133 @@
+@tailwind utilities;
+@import "tailwindcss";
+
+.warranty-page {
+  @apply min-h-screen;
+  background: linear-gradient(135deg, #0a0e17 0%, #1a1f2e 50%, #0a0e17 100%);
+}
+
+/* Section Title */
+.section-title {
+  @apply text-3xl font-bold text-white mb-8;
+  background: linear-gradient(to right, white, #bfdbfe, #a5f3fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Coverage Cards */
+.coverage-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50;
+  animation: slideInUp 0.6s ease-out;
+}
+
+.coverage-card.covered {
+  @apply border-green-500/30;
+}
+
+.coverage-card.not-covered {
+  @apply border-red-500/30;
+}
+
+.coverage-header {
+  @apply flex items-center gap-4 mb-6;
+}
+
+.coverage-icon {
+  @apply w-12 h-12 rounded-xl flex items-center justify-center;
+}
+
+.coverage-icon.green {
+  @apply bg-green-500/10;
+}
+
+.coverage-icon.red {
+  @apply bg-red-500/10;
+}
+
+.coverage-title {
+  @apply text-xl font-bold text-white;
+}
+
+.coverage-list {
+  @apply space-y-3;
+}
+
+.coverage-list-item {
+  @apply flex items-start gap-3 text-slate-300 text-sm;
+}
+
+/* Claims Process */
+.claim-step {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl p-6 border border-slate-700/50;
+  @apply hover:border-blue-500/50 transition-all duration-300;
+  @apply text-center;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.claim-step:nth-child(1) { animation-delay: 0.1s; }
+.claim-step:nth-child(2) { animation-delay: 0.2s; }
+.claim-step:nth-child(3) { animation-delay: 0.3s; }
+.claim-step:nth-child(4) { animation-delay: 0.4s; }
+
+.step-badge {
+  @apply inline-flex items-center justify-center w-12 h-12 rounded-full mb-4;
+  @apply text-xl font-bold text-white;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+.step-icon-wrapper {
+  @apply w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4;
+  @apply bg-slate-700/50 border border-slate-600;
+}
+
+/* Info Section */
+.info-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50;
+}
+
+/* CTA Section */
+.cta-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl p-12 border border-slate-700/50;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title {
+    @apply text-2xl;
+  }
+
+  .coverage-card,
+  .info-card,
+  .cta-card {
+    @apply p-6;
+  }
+
+  .plan-price {
+    @apply text-2xl;
+  }
+}

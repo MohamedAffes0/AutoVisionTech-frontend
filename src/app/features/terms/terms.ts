@@ -16,7 +16,7 @@ export class Terms {
     </svg>
   `;
 
-  protected lastUpdated = 'December 10, 2024';
+  protected lastUpdated = 'December 10, 2025';
 
   protected sections = [
     {

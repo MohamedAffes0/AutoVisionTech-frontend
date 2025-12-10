@@ -15,6 +15,7 @@ import { Faq } from './features/faq/faq';
 import { ContactUs } from './features/contact-us/contact-us';
 import { Privacy } from './features/privacy/privacy';
 import { Terms } from './features/terms/terms';
+import { Warranty } from './features/warranty/warranty';
 
 export const routes: Routes = [
   { path: '', component: MainPage },
@@ -33,5 +34,6 @@ export const routes: Routes = [
   { path: 'contact-us', component: ContactUs},
   { path: 'privacy', component: Privacy},
   { path: 'terms', component: Terms},
+  { path: 'warranty', component: Warranty},
   { path: '**', redirectTo: '' },
 ];
