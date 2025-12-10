@@ -1,12 +1,14 @@
-<div class="services-page">
-  <!-- Hero Section -->
-  <app-hero 
-    [heroName]="'Our Services'" 
-    [heroSubtitle]="'Comprehensive Automotive Solutions Designed to Exceed Your Expectations'" 
-    [heroIcon]="heroIcon">
-  </app-hero>
+<app-legal-page
+  [heroName]="heroName"
+  [heroSubtitle]="heroSubtitle"
+  [heroIcon]="heroIcon"
+  [useCustomLayout]="true"
+  [customContent]="servicesContent">
+</app-legal-page>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+<!-- Template personnalisé pour le contenu Services -->
+<ng-template #servicesContent>
+  <div class="space-y-16">
     
     <!-- Main Services Section -->
     <section class="main-services-section">
@@ -113,4 +115,4 @@
     </section>
 
   </div>
-</div>
+</ng-template>
