@@ -7,7 +7,7 @@
     <image src="https://img.shields.io/badge/Angular-19-red?logo=angular">
     <image src="https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript">
     <image src="https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?logo=tailwindcss">
-    <image src="https://img.shields.io/badge/License-MIT-green">
+    <image src="https://img.shields.io/badge/License-Proprietary-green">
 </p>
 
 ## Table des matières
