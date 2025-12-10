@@ -1,0 +1,125 @@
+@tailwind utilities;
+@import "tailwindcss";
+
+.contact-page {
+  @apply min-h-screen;
+  background: linear-gradient(135deg, #0a0e17 0%, #1a1f2e 50%, #0a0e17 100%);
+}
+
+/* Section Title */
+.section-title {
+  @apply text-3xl font-bold text-white mb-8;
+  background: linear-gradient(to right, white, #bfdbfe, #a5f3fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Contact Form Card */
+.contact-form-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50;
+  @apply h-full;
+  animation: slideInLeft 0.6s ease-out;
+}
+
+/* Contact Method Card */
+.contact-method-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-xl p-6 border border-slate-700/50;
+  @apply hover:border-blue-500/50 transition-all duration-300;
+  animation: slideInRight 0.6s ease-out both;
+}
+
+.contact-method-card:nth-child(1) { animation-delay: 0.1s; }
+.contact-method-card:nth-child(2) { animation-delay: 0.2s; }
+.contact-method-card:nth-child(3) { animation-delay: 0.3s; }
+.contact-method-card:nth-child(4) { animation-delay: 0.4s; }
+
+.method-icon-wrapper {
+  @apply w-12 h-12 rounded-xl flex items-center justify-center mb-4;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Departments Section */
+.department-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50;
+  @apply hover:border-blue-500/50 transition-all duration-300;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.department-card:nth-child(1) { animation-delay: 0.1s; }
+.department-card:nth-child(2) { animation-delay: 0.2s; }
+.department-card:nth-child(3) { animation-delay: 0.3s; }
+
+.dept-icon-wrapper {
+  @apply w-16 h-16 rounded-xl flex items-center justify-center mb-6;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+.dept-contact {
+  @apply flex items-center gap-2 text-sm text-slate-400;
+  @apply hover:text-blue-400 transition-colors;
+}
+
+/* Map Section */
+.map-card {
+  @apply bg-slate-800/60 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50;
+}
+
+.map-placeholder {
+  @apply flex flex-col items-center justify-center;
+  @apply bg-slate-800/30 rounded-xl p-12 border border-slate-700/30;
+  min-height: 400px;
+}
+
+/* Animations */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-form-card {
+    @apply p-6;
+  }
+
+  .department-card,
+  .map-card {
+    @apply p-6;
+  }
+
+  .map-placeholder {
+    @apply p-8;
+    min-height: 300px;
+  }
+}

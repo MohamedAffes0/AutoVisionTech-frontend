@@ -12,6 +12,7 @@ import { Services } from './features/services/services';
 import { Financing } from './features/financing/financing';
 import { TradeIn } from './features/trade-in/trade-in';
 import { Faq } from './features/faq/faq';
+import { ContactUs } from './features/contact-us/contact-us';
 
 export const routes: Routes = [
   { path: '', component: MainPage },
@@ -27,5 +28,6 @@ export const routes: Routes = [
   { path: 'financing', component: Financing},
   { path: 'trade-in', component: TradeIn},
   { path: 'faq', component: Faq},
+  { path: 'contact-us', component: ContactUs},
   { path: '**', redirectTo: '' },
 ];
