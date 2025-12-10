@@ -92,7 +92,7 @@
 }
 
 .quick-filter-btn.active {
-  @apply bg-gradient-to-r from-blue-600 to-cyan-600;
+  @apply bg-linear-to-r from-blue-600 to-cyan-600;
   @apply text-white border-blue-500;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
@@ -241,14 +241,14 @@
 }
 
 .sort-option-btn.active {
-  @apply bg-gradient-to-r from-blue-600/20 to-cyan-600/20;
+  @apply bg-linear-to-r from-blue-600/20 to-cyan-600/20;
   @apply text-white border-blue-500/50;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
 }
 
 .sort-radio {
   @apply w-4 h-4 rounded-full border-2 border-slate-500;
-  @apply flex-shrink-0 transition-all duration-200;
+  @apply shrink-0 transition-all duration-200;
   position: relative;
 }
 

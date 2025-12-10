@@ -7,15 +7,15 @@ import { Signin } from './features/signin/signin';
 import { ManageReservations } from './features/manage-reservations/manage-reservations';
 import { CarPage } from './features/car-page/car-page';
 import { ProfilePage } from './features/profile-page/profile-page';
-import { AboutUs } from './features/about-us/about-us';
-import { Services } from './features/services/services';
-import { Financing } from './features/financing/financing';
-import { TradeIn } from './features/trade-in/trade-in';
-import { Faq } from './features/faq/faq';
-import { ContactUs } from './features/contact-us/contact-us';
-import { Privacy } from './features/privacy/privacy';
-import { Terms } from './features/terms/terms';
-import { Warranty } from './features/warranty/warranty';
+import { AboutUs } from './features/static/about-us/about-us';
+import { Services } from './features/static/services/services';
+import { Financing } from './features/static/financing/financing';
+import { TradeIn } from './features/static/trade-in/trade-in';
+import { Faq } from './features/static/faq/faq';
+import { ContactUs } from './features/static/contact-us/contact-us';
+import { Privacy } from './features/static/privacy/privacy';
+import { Terms } from './features/static/terms/terms';
+import { Warranty } from './features/static/warranty/warranty';
 
 export const routes: Routes = [
   { path: '', component: MainPage },
