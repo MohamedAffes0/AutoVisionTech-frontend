@@ -1,0 +1,115 @@
+<div class="privacy-page">
+  <!-- Hero Section -->
+  <app-hero 
+    [heroName]="'Privacy Policy'" 
+    [heroSubtitle]="'Your Privacy Matters - Learn How We Protect Your Information'" 
+    [heroIcon]="heroIcon">
+  </app-hero>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    
+    <!-- Last Updated -->
+    <div class="last-updated-banner">
+      <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <span>Last Updated: {{ lastUpdated }}</span>
+    </div>
+
+    <div class="grid lg:grid-cols-4 gap-8">
+      
+      <!-- Table of Contents (Sticky Sidebar) -->
+      <aside class="lg:col-span-1">
+        <div class="toc-card">
+          <h3 class="text-lg font-semibold text-white mb-4">Table of Contents</h3>
+          <nav class="space-y-2">
+            <button
+              *ngFor="let link of quickLinks"
+              (click)="scrollToSection(link.id)"
+              class="toc-link"
+            >
+              {{ link.label }}
+            </button>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="lg:col-span-3">
+        <div class="content-card">
+          
+          <section
+            *ngFor="let section of sections"
+            [id]="section.id"
+            class="mb-12 pb-12 border-b border-slate-700/50 policy-section"
+          >
+            <h2 class="section-heading">{{ section.title }}</h2>
+            
+            <!-- Simple Content -->
+            <p *ngIf="section.content" class="text-slate-300 leading-relaxed mb-4;">
+              {{ section.content }}
+            </p>
+
+            <!-- Subsections -->
+            <div *ngIf="section.subsections" class="space-y-6">
+              <div *ngFor="let sub of section.subsections" class="subsection">
+                <h3 class="text-lg font-semibold text-white mb-3">{{ sub.subtitle }}</h3>
+                <p class="text-slate-300 leading-relaxed">{{ sub.content }}</p>
+              </div>
+            </div>
+
+            <!-- List -->
+            <ul *ngIf="section.list" class="space-y-3">
+              <li *ngFor="let item of section.list" class="flex items-start gap-3 text-slate-300">
+                <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>{{ item }}</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Important Notice -->
+          <div class="important-notice">
+            <svg class="w-6 h-6 text-yellow-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <div>
+              <p class="font-semibold text-white mb-2">Important Notice</p>
+              <p class="text-slate-300 text-sm">
+                By using our services, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy. If you do not agree with our practices, please do not use our services.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="mt-16">
+      <div class="contact-cta-card">
+        <h2 class="text-2xl font-bold text-white mb-4 text-center">Have Questions About Our Privacy Policy?</h2>
+        <p class="text-slate-300 text-center mb-8 max-w-2xl mx-auto">
+          Our privacy team is here to help. Contact us if you have any questions or concerns about how we handle your information.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button routerLink="/contact" class="btn-active px-8 py-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            Contact Privacy Team
+          </button>
+          <a href="mailto:privacy@autovision.com" class="default-btn px-8 py-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+            </svg>
+            privacy@autovision.com
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

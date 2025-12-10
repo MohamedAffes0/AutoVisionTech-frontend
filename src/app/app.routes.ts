@@ -13,6 +13,7 @@ import { Financing } from './features/financing/financing';
 import { TradeIn } from './features/trade-in/trade-in';
 import { Faq } from './features/faq/faq';
 import { ContactUs } from './features/contact-us/contact-us';
+import { Privacy } from './features/privacy/privacy';
 
 export const routes: Routes = [
   { path: '', component: MainPage },
@@ -29,5 +30,6 @@ export const routes: Routes = [
   { path: 'trade-in', component: TradeIn},
   { path: 'faq', component: Faq},
   { path: 'contact-us', component: ContactUs},
+  { path: 'privacy', component: Privacy},
   { path: '**', redirectTo: '' },
 ];
