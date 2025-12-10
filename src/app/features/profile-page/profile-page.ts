@@ -30,6 +30,9 @@ export class ProfilePage {
   protected saveError = '';
   localUser!: User;
 
+  // Store temporary image preview URL
+  protected tempImagePreview = signal<string | null>(null);
+
   protected formData = signal({
     name: '',
     email: '',
@@ -59,22 +62,40 @@ export class ProfilePage {
     });
   }
 
+  // MMethod to get the image to display (temporary preview or current image)
+  protected getDisplayImage(): string | null {
+    // Priority 1: Temporary image (newly selected)
+    if (this.tempImagePreview()) {
+      return this.tempImagePreview();
+    }
+    // Priority 2: Form image preview (in edit mode)
+    if (this.formData().imagePreview) {
+      return this.formData().imagePreview as string;
+    }
+    // Priority 3: Current user's image
+    return this.currentUser?.image || null;
+  }
+
   // Edit Profile Methods
   protected startEditing(): void {
       this.isEditing.set(true);
       if(this.currentUser){
+        // Keep the temporary image if it exists
+        const currentFormData = this.formData();
         this.formData.set({
-        name: this.currentUser.name,
-        email: this.currentUser.email,
-        image: null,
-        imagePreview: this.currentUser.image
-      });
-    }
+          name: this.currentUser.name,
+          email: this.currentUser.email,
+          image: currentFormData.image, // Keep the selected image
+          imagePreview: this.tempImagePreview() || this.currentUser.image // Use temporary preview if it exists
+        });
+      }
   }
 
   // Cancel Editing
   protected cancelEditing(): void {
     this.isEditing.set(false);
+    // Reset temporary image preview
+    this.tempImagePreview.set(null);
     if(this.currentUser){
       this.formData.set({
         name: this.currentUser.name,
@@ -85,7 +106,7 @@ export class ProfilePage {
     }
   }
 
-  // Image Selection
+  // Image Selection - Modified to display immediately
   protected onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -103,11 +124,19 @@ export class ProfilePage {
 
       const reader = new FileReader();
       reader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        
+        // Update temporary preview (visible immediately)
+        this.tempImagePreview.set(imageUrl);
+        
+        // Update form with file AND preview
         this.formData.update(data => ({
           ...data,
           image: file,
-          imagePreview: e.target?.result as string
+          imagePreview: imageUrl
         }));
+
+        console.log('Image selected:', file.name, 'Size:', file.size);
       };
       reader.readAsDataURL(file);
     }
@@ -122,6 +151,8 @@ export class ProfilePage {
   // Save Profile
   protected saveProfile(): void {
     const form = this.formData();
+    
+    console.log('Saving profile with image:', form.image ? 'Yes - ' + form.image.name : 'No');
     
     if (!form.name.trim()) {
       alert('Name is required');
@@ -148,25 +179,31 @@ export class ProfilePage {
 
         //check if the profile pic got updated
         if (form.image) {
+          console.log('Uploading image:', form.image.name);
           this.userService.updateProfileImage(form.image).subscribe({
             next: (response) => {
+              console.log('Image uploaded successfully:', response);
               this.isSaving = false;
               this.isEditing.set(false);
+              // Reset temporary image preview after successful save
+              this.tempImagePreview.set(null);
 
               alert('Profile and photo updated successfully!');
             },
             error: (err) => {
               this.isSaving = false;
               this.saveError = 'Photo upload failed.';
-              console.error(err);
+              console.error('Image upload error:', err);
               alert(err.message || 'Photo upload failed.');
             }
           });
 
         } else {
           // No image to update
+          console.log('No image to update');
           this.isSaving = false;
           this.isEditing.set(false);
+          this.tempImagePreview.set(null);
 
           alert('Profile updated successfully!');
         }
@@ -175,7 +212,7 @@ export class ProfilePage {
       error: (err) => {
         this.isSaving = false;
         this.saveError = 'Failed to save profile information.';
-        console.error(err);
+        console.error('Profile update error:', err);
         alert(err.error.message || 'Failed to save profile information.');
       }
     });
