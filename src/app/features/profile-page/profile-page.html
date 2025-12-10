@@ -80,7 +80,10 @@
             type="text"
             [value]="formData().name"
             (input)="updateFormField('name', $any($event.target).value)"
-            class="field-input">
+            class="field-input"
+            minlength="2"
+            maxlength="50"
+            pattern="^[A-Za-zÀ-ÖØ-öø-ÿ' \-]{2,50}$">
           <ng-template #nameDisplay>
             <div class="form-display">{{ currentUser.name }}</div>
           </ng-template>
@@ -97,7 +100,9 @@
             type="email"
             [value]="formData().email"
             (input)="updateFormField('email', $any($event.target).value)"
-            class="field-input">
+            class="field-input"
+            maxlength="254"
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$">
           <ng-template #emailDisplay>
             <div class="form-display">{{ currentUser.email }}</div>
           </ng-template>
@@ -219,7 +224,9 @@
           [value]="passwordForm().newPassword"
           (input)="updatePasswordField('newPassword', $any($event.target).value)"
           placeholder="Enter new password (min. 6 characters)"
-          class="field-input">
+          class="field-input"
+          minlength="6"
+          required>
       </div>
 
       <div class="form-field">
@@ -229,7 +236,9 @@
           [value]="passwordForm().confirmPassword"
           (input)="updatePasswordField('confirmPassword', $any($event.target).value)"
           placeholder="Confirm new password"
-          class="field-input">
+          class="field-input"
+          required
+          minlength="6">
       </div>
     </div>
 
@@ -272,7 +281,8 @@
           [value]="deleteConfirmation()"
           (input)="deleteConfirmation.set($any($event.target).value)"
           placeholder="DELETE"
-          class="field-input">
+          class="field-input"
+          pattern="^DELETE$">
       </div>
     </div>
 
