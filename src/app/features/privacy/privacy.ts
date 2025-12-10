@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Hero } from '@shared/components/hero/hero';
+import { LegalPage, LegalSection, QuickLink } from '@shared/components/legal-page/legal-page';
 
 @Component({
   selector: 'app-privacy',
   standalone: true,
-  imports: [CommonModule, Hero],
+  imports: [CommonModule, LegalPage],
   templateUrl: './privacy.html',
   styleUrls: ['./privacy.css', '../../shared/styles/legal-pages.css']
 })
@@ -16,9 +16,11 @@ export class Privacy {
     </svg>
   `;
 
+  protected heroName = 'Privacy Policy';
+  protected heroSubtitle = 'Your Privacy Matters - Learn How We Protect Your Information';
   protected lastUpdated = 'December 10, 2025';
 
-  protected sections = [
+  protected sections: LegalSection[] = [
     {
       id: 'introduction',
       title: 'Introduction',
@@ -127,7 +129,7 @@ export class Privacy {
     }
   ];
 
-  protected quickLinks = [
+  protected quickLinks: QuickLink[] = [
     { label: 'Introduction', id: 'introduction' },
     { label: 'Information Collection', id: 'information-collection' },
     { label: 'How We Use Information', id: 'how-we-use' },
@@ -138,10 +140,9 @@ export class Privacy {
     { label: 'Contact Us', id: 'contact' }
   ];
 
-  protected scrollToSection(id: string): void {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
+  protected showImportantNotice = true;
+  protected showContactCTA = true;
+  protected contactEmail = 'privacy@autovision.com';
+  protected contactTitle = 'Have Questions About Our Privacy Policy?';
+  protected contactDescription = 'Our privacy team is here to help. Contact us if you have any questions or concerns about how we handle your information.';
 }

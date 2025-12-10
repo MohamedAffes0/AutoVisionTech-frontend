@@ -1,7 +1,7 @@
 @tailwind utilities;
 @import "tailwindcss";
 
-.terms-page, .privacy-page {
+.legal-page {
   @apply min-h-screen;
   background: linear-gradient(135deg, #0a0e17 0%, #1a1f2e 50%, #0a0e17 100%);
 }
