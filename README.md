@@ -73,8 +73,6 @@ Consultez les fichiers de documentation détaillés :
 - [`TECHNOLOGIES.md`](./docs/TECHNOLOGIES.md) - Stack technique détaillée
 - [`FEATURES.md`](./docs/FEATURES.md) - Fonctionnalités complètes
 - [`DESIGN.md`](./docs/DESIGN.md) - Guide de style et composants UI
-- [`API.md`](./docs/API.md) - Documentation de l'API
-- [`SECURITY.md`](./docs/SECURITY.md) - Authentification et sécurité
 
 ## Installation
 
