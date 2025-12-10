@@ -44,7 +44,7 @@
 
 .step-connector {
   @apply hidden lg:block absolute top-8 left-full w-full h-0.5;
-  @apply bg-gradient-to-r from-blue-600 to-cyan-600;
+  @apply bg-linear-to-r from-blue-600 to-cyan-600;
   @apply -translate-x-1/2;
   z-index: 0;
 }

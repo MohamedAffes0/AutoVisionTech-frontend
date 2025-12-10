@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-about-us',
   standalone: true,
-  imports: [CommonModule, Hero, InfoCard, RouterLink],
+  imports: [Hero, InfoCard, RouterLink, CommonModule],
   templateUrl: './about-us.html',
   styleUrls: ['./about-us.css']
 })

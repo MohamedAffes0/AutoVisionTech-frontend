@@ -3,14 +3,14 @@
 
 /* Principal container */
 .reservation-container {
-  @apply bg-[var(--color-dashboard-card)] rounded-2xl p-6 border border-slate-700 space-y-6 w-full;
+  @apply bg-(--color-dashboard-card) rounded-2xl p-6 border border-slate-700 space-y-6 w-full;
 }
 
 /* Schedule Visit Button */
 .schedule-btn {
-  @apply w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600
+  @apply w-full py-3 bg-linear-to-r from-blue-600 to-cyan-600
   hover:from-blue-700 hover:to-cyan-700
-  text-white rounded-lg transition-all shadow-[var(--shadow-glow-blue)];
+  text-white rounded-lg transition-all shadow-(--shadow-glow-blue);
 }
 
 /* Label */
@@ -39,7 +39,7 @@
 }
 
 .contact-item svg {
-  @apply w-5 h-5 text-blue-400 flex-shrink-0;
+  @apply w-5 h-5 text-blue-400 shrink-0;
 }
 
 /* Responsive */
