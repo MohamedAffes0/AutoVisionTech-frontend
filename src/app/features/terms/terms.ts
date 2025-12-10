@@ -7,7 +7,7 @@ import { Hero } from '@shared/components/hero/hero';
   standalone: true,
   imports: [CommonModule, Hero],
   templateUrl: './terms.html',
-  styleUrls: ['./terms.css']
+  styleUrls: ['./terms.css', '../../shared/styles/legal-pages.css']
 })
 export class Terms {
   protected heroIcon = `
